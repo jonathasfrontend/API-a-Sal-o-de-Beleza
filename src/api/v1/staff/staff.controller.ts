@@ -190,6 +190,40 @@ export class StaffController {
       });
     }
   };
+
+  /**
+   * Atribuir role a um staff
+   * POST /api/v1/staff/:id/assign-role
+   */
+  assignRole = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+      const { roleId } = req.body;
+      
+      if (!roleId) {
+        res.status(400).json({
+          status: 'error',
+          message: 'roleId is required',
+        });
+        return;
+      }
+
+      const result = await this.staffService.assignRole(id, roleId);
+      
+      logger.info(`Role assigned to staff: ${id} by user ${req.user?.id}`);
+      
+      res.json({
+        status: 'success',
+        data: result,
+      });
+    } catch (error: any) {
+      logger.error('Error assigning role:', error);
+      res.status(400).json({
+        status: 'error',
+        message: error.message || 'Failed to assign role',
+      });
+    }
+  };
 }
 
 export const staffController = new StaffController();

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as appointmentsController from './appointments.controller';
-import { authenticate, authorize } from '../../../middlewares/auth.jwt';
+import { authenticate, checkPermission } from '../../../middlewares/auth.jwt';
 import { validateZod } from '../../../middlewares/validate';
 import { z } from 'zod';
 
@@ -40,51 +40,51 @@ router.use(authenticate);
 // Routes
 router.post(
   '/',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION'),
+  checkPermission('appointments.create'),
   validateZod(createAppointmentSchema),
   appointmentsController.createAppointment
 );
 
 router.get(
   '/',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION', 'STAFF'),
+  checkPermission('appointments.read'),
   appointmentsController.getAppointments
 );
 
 router.get(
   '/availability',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION', 'STAFF'),
+  checkPermission('appointments.read'),
   appointmentsController.checkAvailability
 );
 
 router.get(
   '/stats',
-  authorize('ADMIN', 'MANAGER'),
+  checkPermission('appointments.read'),
   appointmentsController.getStats
 );
 
 router.get(
   '/:id',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION', 'STAFF'),
+  checkPermission('appointments.read'),
   appointmentsController.getAppointment
 );
 
 router.put(
   '/:id',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION'),
+  checkPermission('appointments.update'),
   validateZod(updateAppointmentSchema),
   appointmentsController.updateAppointment
 );
 
 router.post(
   '/:id/cancel',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION'),
+  checkPermission('appointments.update'),
   appointmentsController.cancelAppointment
 );
 
 router.post(
   '/:id/no-show',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION'),
+  checkPermission('appointments.update'),
   appointmentsController.markNoShow
 );
 

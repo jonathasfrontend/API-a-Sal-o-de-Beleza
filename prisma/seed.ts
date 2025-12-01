@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
-const prisma = new PrismaClient();
+// @ts-ignore - Prisma types may not be recognized by TypeScript server
+const prisma = new PrismaClient() as any;
 
 async function main() {
   console.log('🌱 Seeding database...');
@@ -17,6 +18,160 @@ async function main() {
   await prisma.client.deleteMany();
   await prisma.refreshToken.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.rolePermission.deleteMany();
+  await prisma.permission.deleteMany();
+  await prisma.role.deleteMany();
+
+  console.log('📋 Creating permissions...');
+  
+  // Criar todas as permissões do sistema
+  const permissions = await Promise.all([
+    // Clients
+    prisma.permission.create({ data: { name: 'clients.read', description: 'Visualizar clientes', module: 'clients' } }),
+    prisma.permission.create({ data: { name: 'clients.create', description: 'Criar clientes', module: 'clients' } }),
+    prisma.permission.create({ data: { name: 'clients.update', description: 'Editar clientes', module: 'clients' } }),
+    prisma.permission.create({ data: { name: 'clients.delete', description: 'Deletar clientes', module: 'clients' } }),
+    
+    // Appointments
+    prisma.permission.create({ data: { name: 'appointments.read', description: 'Visualizar agendamentos', module: 'appointments' } }),
+    prisma.permission.create({ data: { name: 'appointments.create', description: 'Criar agendamentos', module: 'appointments' } }),
+    prisma.permission.create({ data: { name: 'appointments.update', description: 'Editar agendamentos', module: 'appointments' } }),
+    prisma.permission.create({ data: { name: 'appointments.delete', description: 'Deletar agendamentos', module: 'appointments' } }),
+    
+    // Staff
+    prisma.permission.create({ data: { name: 'staff.read', description: 'Visualizar profissionais', module: 'staff' } }),
+    prisma.permission.create({ data: { name: 'staff.create', description: 'Criar profissionais', module: 'staff' } }),
+    prisma.permission.create({ data: { name: 'staff.update', description: 'Editar profissionais', module: 'staff' } }),
+    prisma.permission.create({ data: { name: 'staff.delete', description: 'Deletar profissionais', module: 'staff' } }),
+    
+    // Services
+    prisma.permission.create({ data: { name: 'services.read', description: 'Visualizar serviços', module: 'services' } }),
+    prisma.permission.create({ data: { name: 'services.create', description: 'Criar serviços', module: 'services' } }),
+    prisma.permission.create({ data: { name: 'services.update', description: 'Editar serviços', module: 'services' } }),
+    prisma.permission.create({ data: { name: 'services.delete', description: 'Deletar serviços', module: 'services' } }),
+    
+    // Products
+    prisma.permission.create({ data: { name: 'products.read', description: 'Visualizar produtos', module: 'products' } }),
+    prisma.permission.create({ data: { name: 'products.create', description: 'Criar produtos', module: 'products' } }),
+    prisma.permission.create({ data: { name: 'products.update', description: 'Editar produtos', module: 'products' } }),
+    prisma.permission.create({ data: { name: 'products.delete', description: 'Deletar produtos', module: 'products' } }),
+    
+    // Sales
+    prisma.permission.create({ data: { name: 'sales.read', description: 'Visualizar vendas', module: 'sales' } }),
+    prisma.permission.create({ data: { name: 'sales.create', description: 'Criar vendas', module: 'sales' } }),
+    
+    // Payments
+    prisma.permission.create({ data: { name: 'payments.read', description: 'Visualizar pagamentos', module: 'payments' } }),
+    prisma.permission.create({ data: { name: 'payments.create', description: 'Criar pagamentos', module: 'payments' } }),
+    prisma.permission.create({ data: { name: 'payments.update', description: 'Editar pagamentos', module: 'payments' } }),
+    
+    // Expenses
+    prisma.permission.create({ data: { name: 'expenses.read', description: 'Visualizar despesas', module: 'expenses' } }),
+    prisma.permission.create({ data: { name: 'expenses.create', description: 'Criar despesas', module: 'expenses' } }),
+    prisma.permission.create({ data: { name: 'expenses.update', description: 'Editar despesas', module: 'expenses' } }),
+    prisma.permission.create({ data: { name: 'expenses.delete', description: 'Deletar despesas', module: 'expenses' } }),
+    
+    // Reports
+    prisma.permission.create({ data: { name: 'reports.read', description: 'Visualizar relatórios', module: 'reports' } }),
+    
+    // Roles
+    prisma.permission.create({ data: { name: 'roles.read', description: 'Visualizar cargos', module: 'roles' } }),
+    prisma.permission.create({ data: { name: 'roles.create', description: 'Criar cargos', module: 'roles' } }),
+    prisma.permission.create({ data: { name: 'roles.update', description: 'Editar cargos', module: 'roles' } }),
+    prisma.permission.create({ data: { name: 'roles.delete', description: 'Deletar cargos', module: 'roles' } }),
+    prisma.permission.create({ data: { name: 'roles.assign', description: 'Atribuir cargos', module: 'roles' } }),
+    
+    // Reviews
+    prisma.permission.create({ data: { name: 'reviews.read', description: 'Visualizar avaliações', module: 'reviews' } }),
+    
+    // Waitlist
+    prisma.permission.create({ data: { name: 'waitlist.read', description: 'Visualizar lista de espera', module: 'waitlist' } }),
+    prisma.permission.create({ data: { name: 'waitlist.create', description: 'Criar itens na lista de espera', module: 'waitlist' } }),
+  ]);
+
+  console.log(`✅ Created ${permissions.length} permissions`);
+
+  console.log('👥 Creating roles...');
+
+  // Criar role de Admin com todas as permissões
+  const adminRole = await prisma.role.create({
+    data: {
+      name: 'Admin',
+      description: 'Administrador com acesso total ao sistema',
+      isSystem: true,
+    },
+  });
+
+  // Atribuir todas as permissões ao Admin
+  for (const permission of permissions) {
+    await prisma.rolePermission.create({
+      data: {
+        roleId: adminRole.id,
+        permissionId: permission.id,
+      },
+    });
+  }
+
+  console.log(`✅ Created role 'Admin' with all permissions`);
+
+  // Criar role de Recepção com permissões específicas
+  const receptionRole = await prisma.role.create({
+    data: {
+      name: 'Recepção',
+      description: 'Recepcionista com acesso a clientes e agendamentos',
+      isSystem: true,
+    },
+  });
+
+  // Permissões para Recepção
+  const receptionPermissions = permissions.filter((p: any) => 
+    p.name.startsWith('clients.') || 
+    p.name.startsWith('appointments.') ||
+    p.name === 'staff.read' ||
+    p.name === 'services.read' ||
+    p.name === 'waitlist.read' ||
+    p.name === 'waitlist.create'
+  );
+
+  for (const permission of receptionPermissions) {
+    await prisma.rolePermission.create({
+      data: {
+        roleId: receptionRole.id,
+        permissionId: permission.id,
+      },
+    });
+  }
+
+  console.log(`✅ Created role 'Recepção' with ${receptionPermissions.length} permissions`);
+
+  // Criar role de Staff (Profissional) com permissões básicas
+  const staffRole = await prisma.role.create({
+    data: {
+      name: 'Profissional',
+      description: 'Profissional do salão com acesso limitado',
+      isSystem: true,
+    },
+  });
+
+  // Permissões para Profissional
+  const staffPermissions = permissions.filter((p: any) => 
+    p.name === 'appointments.read' ||
+    p.name === 'clients.read' ||
+    p.name === 'services.read'
+  );
+
+  for (const permission of staffPermissions) {
+    await prisma.rolePermission.create({
+      data: {
+        roleId: staffRole.id,
+        permissionId: permission.id,
+      },
+    });
+  }
+
+  console.log(`✅ Created role 'Profissional' with ${staffPermissions.length} permissions`);
+
+  console.log('👤 Creating users...');
 
   // Create admin user
   const adminPassword = await bcrypt.hash('admin123', 12);
@@ -25,7 +180,7 @@ async function main() {
       email: 'admin@salao.com',
       passwordHash: adminPassword,
       name: 'Administrador',
-      role: 'ADMIN',
+      roleId: adminRole.id,
       phone: '11999999999',
     },
   });
@@ -37,7 +192,7 @@ async function main() {
       email: 'recepcao@salao.com',
       passwordHash: receptionPassword,
       name: 'Recepcionista',
-      role: 'RECEPTION',
+      roleId: receptionRole.id,
       phone: '11988888888',
     },
   });
@@ -49,7 +204,7 @@ async function main() {
       email: 'maria@salao.com',
       passwordHash: staff1Password,
       name: 'Maria Silva',
-      role: 'STAFF',
+      roleId: staffRole.id,
       phone: '11977777777',
     },
   });
@@ -77,7 +232,7 @@ async function main() {
       email: 'ana@salao.com',
       passwordHash: staff2Password,
       name: 'Ana Costa',
-      role: 'STAFF',
+      roleId: staffRole.id,
       phone: '11966666666',
     },
   });

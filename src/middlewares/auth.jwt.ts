@@ -40,29 +40,46 @@ export const authenticate = async (
 
     const decoded = jwt.verify(token, env.jwtSecret) as JwtPayload;
 
-    // Verify user still exists and is active
-    const user = await prisma.user.findUnique({
+    // Verify user still exists and is active, and load role with permissions
+    const user: any = await prisma.user.findUnique({
       where: { id: decoded.sub },
-      select: { id: true, role: true, isActive: true },
+      include: {
+        role: {
+          include: {
+            rolePermissions: {
+              include: {
+                permission: true,
+              },
+            },
+          },
+        },
+      } as any,
     });
 
     if (!user || !user.isActive) {
       throw new AppError('User not found or inactive', 401);
     }
 
+    if (!user.role) {
+      throw new AppError('User has no role assigned', 401);
+    }
+
+    // Extract permissions from role
+    const permissions = user.role.rolePermissions.map(
+      (rp: any) => rp.permission.name
+    );
+
     req.user = {
-      id: decoded.sub,
-      role: decoded.role,
-      permissions: decoded.permissions,
+      id: user.id,
+      role: user.role.name,
+      permissions,
     };
 
     next();
   } catch (error) {
     next(error);
   }
-};
-
-export const authorize = (...roles: string[]) => {
+};export const authorize = (...roles: string[]) => {
   return (req: Request, _res: Response, next: NextFunction) => {
     if (!req.user) {
       return next(new AppError('Unauthorized', 401));

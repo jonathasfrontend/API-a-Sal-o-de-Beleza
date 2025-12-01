@@ -10,6 +10,8 @@
 
 ## 🔐 1. Autenticação
 
+> **💡 Sistema de Permissões**: Após o login, o token JWT contém as permissões do usuário. Cada rota valida automaticamente se o usuário possui a permissão necessária (ex: `clients.create`, `appointments.update`, etc.).
+
 ### Login
 ```bash
 curl -X POST http://localhost:4000/api/v1/auth/login \
@@ -29,7 +31,20 @@ curl -X POST http://localhost:4000/api/v1/auth/login \
       "id": "uuid",
       "email": "admin@salao.com",
       "name": "Administrador",
-      "role": "ADMIN"
+      "role": {
+        "id": "uuid-role",
+        "name": "Admin",
+        "description": "Acesso completo ao sistema"
+      },
+      "permissions": [
+        "clients.list",
+        "clients.create",
+        "clients.read",
+        "clients.update",
+        "clients.delete",
+        "appointments.list",
+        // ... todas as 38 permissões para Admin
+      ]
     },
     "accessToken": "eyJhbGc...",
     "refreshToken": "abc123..."
@@ -38,6 +53,13 @@ curl -X POST http://localhost:4000/api/v1/auth/login \
 ```
 
 **💡 Salve o accessToken para usar nas próximas requisições!**
+
+**🔑 Credenciais de teste disponíveis:**
+```
+Admin:         admin@salao.com / admin123
+Recepção:      recepcao@salao.com / reception123
+Profissional:  maria@salao.com / staff123
+```
 
 ### Refresh Token
 ```bash
@@ -57,6 +79,8 @@ curl -X GET http://localhost:4000/api/v1/auth/me \
 ---
 
 ## 👥 2. Clientes
+
+> **🔐 Permissões necessárias**: `clients.list`, `clients.create`, `clients.read`, `clients.update`, `clients.delete`
 
 ### Criar Cliente
 ```bash
@@ -164,6 +188,8 @@ curl -X DELETE http://localhost:4000/api/v1/clients/UUID_DO_CLIENTE \
 
 ## 💇 3. Serviços
 
+> **🔐 Permissões necessárias**: `services.list`, `services.create`, `services.read`, `services.update`, `services.delete`
+
 ### Criar Serviço
 ```bash
 curl -X POST http://localhost:4000/api/v1/services \
@@ -226,6 +252,8 @@ curl -X DELETE http://localhost:4000/api/v1/services/UUID_DO_SERVICO \
 
 ## 👨‍💼 4. Profissionais (Staff)
 
+> **🔐 Permissões necessárias**: `staff.list`, `staff.create`, `staff.read`, `staff.update`, `staff.delete`, `staff.availability`, `staff.assign-role`
+
 ### Criar Profissional
 ```bash
 curl -X POST http://localhost:4000/api/v1/staff \
@@ -276,6 +304,8 @@ curl -X GET http://localhost:4000/api/v1/staff/UUID_STAFF/schedule \
 ---
 
 ## 📅 5. Agendamentos
+
+> **🔐 Permissões necessárias**: `appointments.list`, `appointments.create`, `appointments.read`, `appointments.update`, `appointments.delete`, `appointments.cancel`, `appointments.no-show`
 
 ### Criar Agendamento
 ```bash
@@ -425,6 +455,8 @@ curl -X GET "http://localhost:4000/api/v1/appointments/stats?startDate=2024-12-0
 
 ## 💰 6. Pagamentos
 
+> **🔐 Permissões necessárias**: `payments.list`, `payments.create`, `payments.read`, `payments.confirm`, `payments.refund`, `payments.report`
+
 ### Criar Pagamento
 ```bash
 curl -X POST http://localhost:4000/api/v1/payments \
@@ -474,6 +506,8 @@ curl -X GET "http://localhost:4000/api/v1/payments/report?startDate=2024-12-01&e
 ---
 
 ## 📦 7. Produtos
+
+> **🔐 Permissões necessárias**: `products.list`, `products.create`, `products.read`, `products.update`, `products.delete`, `products.stock`
 
 ### Criar Produto
 ```bash
@@ -541,6 +575,8 @@ curl -X GET http://localhost:4000/api/v1/products/UUID_PRODUTO/movements \
 
 ## 🛒 8. Vendas (PDV)
 
+> **🔐 Permissões necessárias**: `sales.list`, `sales.create`, `sales.read`
+
 ### Criar Venda
 ```bash
 curl -X POST http://localhost:4000/api/v1/sales \
@@ -567,6 +603,8 @@ curl -X POST http://localhost:4000/api/v1/sales \
 ---
 
 ## 📊 9. Relatórios
+
+> **🔐 Permissões necessárias**: `reports.dashboard`, `reports.financial`, `reports.commissions`
 
 ### Dashboard
 ```bash
@@ -599,6 +637,8 @@ curl -X GET "http://localhost:4000/api/v1/reports/commissions?startDate=2024-12-
 
 ## ⭐ 10. Avaliações
 
+> **🔐 Permissões necessárias**: `reviews.list`, `reviews.create`, `reviews.read`, `reviews.update`, `reviews.delete`, `reviews.stats`
+
 ### Criar Avaliação
 ```bash
 curl -X POST http://localhost:4000/api/v1/reviews \
@@ -629,6 +669,8 @@ curl -X GET http://localhost:4000/api/v1/reviews/stats \
 ---
 
 ## 📋 11. Lista de Espera
+
+> **🔐 Permissões necessárias**: `waitlist.list`, `waitlist.create`, `waitlist.read`, `waitlist.update`, `waitlist.delete`, `waitlist.notify`
 
 ### Adicionar à Lista
 ```bash
@@ -663,7 +705,381 @@ curl -X POST http://localhost:4000/api/v1/waitlist/UUID_ENTRY/contact \
 
 ---
 
-## 🐛 Códigos de Erro Esperados
+## � 12. Sistema de Cargos e Permissões
+
+> **⚠️ IMPORTANTE**: Todas as rotas deste módulo requerem permissão `roles.*` (apenas ADMIN)
+
+### Listar Todos os Cargos
+```bash
+curl -X GET http://localhost:4000/api/v1/roles \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "uuid-admin",
+      "name": "Admin",
+      "description": "Acesso completo ao sistema",
+      "createdAt": "2024-12-01T10:00:00Z",
+      "updatedAt": "2024-12-01T10:00:00Z",
+      "_count": {
+        "rolePermissions": 38,
+        "users": 1
+      }
+    },
+    {
+      "id": "uuid-recepcao",
+      "name": "Recepção",
+      "description": "Acesso a clientes e agendamentos",
+      "_count": {
+        "rolePermissions": 12,
+        "users": 3
+      }
+    },
+    {
+      "id": "uuid-profissional",
+      "name": "Profissional",
+      "description": "Acesso limitado para consulta",
+      "_count": {
+        "rolePermissions": 3,
+        "users": 5
+      }
+    }
+  ]
+}
+```
+
+### Criar Novo Cargo
+```bash
+curl -X POST http://localhost:4000/api/v1/roles \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Gerente",
+    "description": "Gerente do salão com acesso amplo"
+  }'
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "uuid-novo-cargo",
+    "name": "Gerente",
+    "description": "Gerente do salão com acesso amplo",
+    "createdAt": "2024-12-01T15:30:00Z",
+    "updatedAt": "2024-12-01T15:30:00Z"
+  }
+}
+```
+
+### Buscar Cargo Específico
+```bash
+curl -X GET http://localhost:4000/api/v1/roles/UUID_DO_CARGO \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "uuid-cargo",
+    "name": "Recepção",
+    "description": "Acesso a clientes e agendamentos",
+    "createdAt": "2024-12-01T10:00:00Z",
+    "updatedAt": "2024-12-01T10:00:00Z",
+    "rolePermissions": [
+      {
+        "permission": {
+          "id": "uuid-perm-1",
+          "name": "clients.list",
+          "description": "Listar clientes",
+          "module": "clients"
+        }
+      },
+      {
+        "permission": {
+          "id": "uuid-perm-2",
+          "name": "clients.create",
+          "description": "Criar cliente",
+          "module": "clients"
+        }
+      }
+    ],
+    "users": [
+      {
+        "id": "uuid-user",
+        "name": "Maria Recepcionista",
+        "email": "maria@salao.com"
+      }
+    ]
+  }
+}
+```
+
+### Atualizar Cargo
+```bash
+curl -X PUT http://localhost:4000/api/v1/roles/UUID_DO_CARGO \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Gerente de Operações",
+    "description": "Gerente com controle sobre operações diárias"
+  }'
+```
+
+### Deletar Cargo
+```bash
+curl -X DELETE http://localhost:4000/api/v1/roles/UUID_DO_CARGO \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "message": "Cargo deletado com sucesso"
+}
+```
+
+### Atribuir Permissões a um Cargo
+```bash
+curl -X PUT http://localhost:4000/api/v1/roles/UUID_DO_CARGO/permissions \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "permissionIds": [
+      "uuid-clients-list",
+      "uuid-clients-create",
+      "uuid-clients-read",
+      "uuid-appointments-list",
+      "uuid-appointments-create",
+      "uuid-appointments-read",
+      "uuid-appointments-update"
+    ]
+  }'
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "uuid-cargo",
+    "name": "Recepção",
+    "rolePermissions": [
+      {
+        "permission": {
+          "id": "uuid-clients-list",
+          "name": "clients.list",
+          "description": "Listar clientes",
+          "module": "clients"
+        }
+      },
+      {
+        "permission": {
+          "id": "uuid-clients-create",
+          "name": "clients.create",
+          "description": "Criar cliente",
+          "module": "clients"
+        }
+      }
+      // ... demais permissões
+    ]
+  }
+}
+```
+
+### Atribuir Cargo a um Usuário
+```bash
+curl -X POST http://localhost:4000/api/v1/roles/UUID_DO_CARGO/assign/UUID_DO_USUARIO \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "uuid-usuario",
+    "name": "João Silva",
+    "email": "joao@salao.com",
+    "roleId": "uuid-cargo",
+    "role": {
+      "id": "uuid-cargo",
+      "name": "Gerente",
+      "description": "Gerente do salão"
+    }
+  }
+}
+```
+
+### Listar Todas as Permissões Disponíveis
+```bash
+curl -X GET http://localhost:4000/api/v1/roles/permissions \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "uuid-perm-1",
+      "name": "clients.list",
+      "description": "Listar clientes",
+      "module": "clients",
+      "createdAt": "2024-12-01T10:00:00Z"
+    },
+    {
+      "id": "uuid-perm-2",
+      "name": "clients.create",
+      "description": "Criar cliente",
+      "module": "clients",
+      "createdAt": "2024-12-01T10:00:00Z"
+    }
+    // ... Total: 38 permissões
+  ]
+}
+```
+
+### 📋 Lista Completa de Permissões (38 total)
+
+#### Módulo: Clientes (clients.*)
+- `clients.list` - Listar clientes
+- `clients.create` - Criar cliente
+- `clients.read` - Visualizar detalhes do cliente
+- `clients.update` - Atualizar dados do cliente
+- `clients.delete` - Deletar cliente
+
+#### Módulo: Agendamentos (appointments.*)
+- `appointments.list` - Listar agendamentos
+- `appointments.create` - Criar agendamento
+- `appointments.read` - Visualizar agendamento
+- `appointments.update` - Atualizar agendamento
+- `appointments.delete` - Deletar agendamento
+- `appointments.cancel` - Cancelar agendamento
+- `appointments.no-show` - Marcar como no-show
+
+#### Módulo: Profissionais (staff.*)
+- `staff.list` - Listar profissionais
+- `staff.create` - Criar profissional
+- `staff.read` - Visualizar profissional
+- `staff.update` - Atualizar profissional
+- `staff.delete` - Deletar profissional
+- `staff.availability` - Ver disponibilidade
+- `staff.assign-role` - Atribuir cargo
+
+#### Módulo: Serviços (services.*)
+- `services.list` - Listar serviços
+- `services.create` - Criar serviço
+- `services.read` - Visualizar serviço
+- `services.update` - Atualizar serviço
+- `services.delete` - Deletar serviço
+
+#### Módulo: Produtos (products.*)
+- `products.list` - Listar produtos
+- `products.create` - Criar produto
+- `products.read` - Visualizar produto
+- `products.update` - Atualizar produto
+- `products.delete` - Deletar produto
+- `products.stock` - Gerenciar estoque
+
+#### Módulo: Vendas (sales.*)
+- `sales.list` - Listar vendas
+- `sales.create` - Criar venda
+- `sales.read` - Visualizar venda
+
+#### Módulo: Pagamentos (payments.*)
+- `payments.list` - Listar pagamentos
+- `payments.create` - Criar pagamento
+- `payments.read` - Visualizar pagamento
+- `payments.confirm` - Confirmar pagamento
+- `payments.refund` - Reembolsar pagamento
+- `payments.report` - Relatório de pagamentos
+
+#### Módulo: Despesas (expenses.*)
+- `expenses.list` - Listar despesas
+- `expenses.create` - Criar despesa
+- `expenses.read` - Visualizar despesa
+- `expenses.update` - Atualizar despesa
+- `expenses.delete` - Deletar despesa
+
+#### Módulo: Relatórios (reports.*)
+- `reports.dashboard` - Dashboard geral
+- `reports.financial` - Relatório financeiro
+- `reports.commissions` - Relatório de comissões
+
+#### Módulo: Cargos (roles.*)
+- `roles.list` - Listar cargos
+- `roles.create` - Criar cargo
+- `roles.read` - Visualizar cargo
+- `roles.update` - Atualizar cargo
+- `roles.delete` - Deletar cargo
+- `roles.assign` - Atribuir cargo
+
+#### Módulo: Avaliações (reviews.*)
+- `reviews.list` - Listar avaliações
+- `reviews.create` - Criar avaliação
+- `reviews.read` - Visualizar avaliação
+- `reviews.update` - Atualizar avaliação
+- `reviews.delete` - Deletar avaliação
+- `reviews.stats` - Estatísticas de avaliações
+
+#### Módulo: Lista de Espera (waitlist.*)
+- `waitlist.list` - Listar lista de espera
+- `waitlist.create` - Adicionar à lista
+- `waitlist.read` - Visualizar entrada
+- `waitlist.update` - Atualizar entrada
+- `waitlist.delete` - Deletar entrada
+- `waitlist.notify` - Notificar cliente
+
+### 🎯 Cargos Padrão e suas Permissões
+
+#### 1. Admin (Todas as 38 permissões)
+Acesso completo a todos os módulos do sistema.
+
+**Credenciais de teste:**
+```
+Email: admin@salao.com
+Senha: admin123
+```
+
+#### 2. Recepção (12 permissões)
+Foco em atendimento ao cliente e agendamentos:
+- `clients.*` (todas as permissões de clientes)
+- `appointments.*` (todas as permissões de agendamentos)
+- `waitlist.list`
+- `waitlist.create`
+
+**Credenciais de teste:**
+```
+Email: recepcao@salao.com
+Senha: reception123
+```
+
+#### 3. Profissional (3 permissões)
+Acesso limitado para consulta:
+- `appointments.list` (apenas seus próprios agendamentos)
+- `clients.read` (visualizar clientes)
+- `services.list` (listar serviços)
+
+**Credenciais de teste:**
+```
+Email: maria@salao.com
+Senha: staff123
+```
+
+---
+
+## �🐛 Códigos de Erro Esperados
 
 | Código | Descrição |
 |--------|-----------|
@@ -681,10 +1097,33 @@ curl -X POST http://localhost:4000/api/v1/waitlist/UUID_ENTRY/contact \
 
 1. **Salve o token**: Após fazer login, salve o `accessToken` em uma variável de ambiente
 2. **Use Postman/Insomnia**: Importar essas requisições facilita os testes
-3. **Verifique logs**: Acompanhe os logs do servidor para debug
-4. **Use Prisma Studio**: `npm run prisma:studio` para visualizar os dados
-5. **Health check**: Teste `GET http://localhost:4000/health` para verificar se o servidor está ativo
+3. **Verifique permissões**: Cada resposta 403 indica falta de permissão - verifique o cargo do usuário
+4. **Teste com diferentes cargos**: Use as 3 credenciais padrão para testar diferentes níveis de acesso
+5. **Verifique logs**: Acompanhe os logs do servidor para debug
+6. **Use Prisma Studio**: `npm run prisma:studio` para visualizar os dados
+7. **Health check**: Teste `GET http://localhost:4000/health` para verificar se o servidor está ativo
+8. **Gerencie permissões**: Apenas admin pode criar e editar cargos através de `/api/v1/roles`
 
 ---
 
-**📚 Documentação adicional**: Veja `API_EXAMPLES.md` para mais exemplos e fluxos completos
+**📚 Documentação adicional**: 
+- `ROLES_AND_PERMISSIONS.md` - Guia completo do sistema de permissões
+- `API_EXAMPLES.md` - Mais exemplos e fluxos completos
+
+---
+
+## ⚠️ Nota sobre Permissões
+
+Se você receber um erro **403 Forbidden**, significa que seu usuário não possui a permissão necessária. Exemplo:
+
+```json
+{
+  "status": "error",
+  "message": "Acesso negado. Permissão necessária: clients.create"
+}
+```
+
+**Soluções:**
+1. Faça login com um usuário que possui a permissão necessária
+2. Peça ao administrador para atribuir a permissão ao seu cargo
+3. Use as credenciais de teste do Admin para acesso total: `admin@salao.com / admin123`

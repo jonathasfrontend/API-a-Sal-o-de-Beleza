@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { staffController } from './staff.controller';
-import { authenticate } from '../../../middlewares/auth.jwt';
+import { authenticate, checkPermission } from '../../../middlewares/auth.jwt';
 import { validateZod } from '../../../middlewares/validate';
 import { z } from 'zod';
 
@@ -33,6 +33,7 @@ const updateStaffSchema = z.object({
 router.post(
   '/',
   authenticate,
+  checkPermission('staff.create'),
   validateZod(createStaffSchema),
   staffController.create
 );
@@ -40,30 +41,35 @@ router.post(
 router.get(
   '/',
   authenticate,
+  checkPermission('staff.read'),
   staffController.list
 );
 
 router.get(
   '/:id',
   authenticate,
+  checkPermission('staff.read'),
   staffController.getById
 );
 
 router.get(
   '/:id/availability',
   authenticate,
+  checkPermission('staff.read'),
   staffController.checkAvailability
 );
 
 router.get(
   '/:id/schedule',
   authenticate,
+  checkPermission('staff.read'),
   staffController.getSchedule
 );
 
 router.put(
   '/:id',
   authenticate,
+  checkPermission('staff.update'),
   validateZod(updateStaffSchema),
   staffController.update
 );
@@ -71,7 +77,15 @@ router.put(
 router.delete(
   '/:id',
   authenticate,
+  checkPermission('staff.delete'),
   staffController.delete
+);
+
+router.post(
+  '/:id/assign-role',
+  authenticate,
+  checkPermission('roles.assign'),
+  staffController.assignRole
 );
 
 export default router;

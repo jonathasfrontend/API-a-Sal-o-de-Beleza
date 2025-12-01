@@ -230,4 +230,44 @@ export class StaffService {
 
     return staff;
   }
+
+  /**
+   * Atribuir role a um usuário staff
+   */
+  async assignRole(staffId: string, roleId: string) {
+    // Verificar se o staff existe
+    const staff = await prisma.staff.findUnique({
+      where: { id: staffId },
+      include: { user: true },
+    });
+
+    if (!staff) {
+      throw new Error('Staff not found');
+    }
+
+    // Verificar se a role existe
+    const role: any = await (prisma as any).role.findUnique({
+      where: { id: roleId },
+    });
+
+    if (!role) {
+      throw new Error('Role not found');
+    }
+
+    // Atualizar a role do usuário
+    await prisma.user.update({
+      where: { id: staff.userId },
+      data: { roleId } as any,
+    });
+
+    return {
+      message: 'Role assigned successfully',
+      staff: {
+        id: staff.id,
+        userId: staff.userId,
+        userName: staff.user.name,
+        roleName: role.name,
+      },
+    };
+  }
 }

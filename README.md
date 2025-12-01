@@ -25,7 +25,7 @@ Uma solução SaaS moderna e escalável para gestão completa de salões de bele
 - **CRM de clientes** com histórico completo, programa de fidelidade e reativação
 - **Controle de estoque** integrado ao PDV
 - **Sistema de avaliações** e feedback de clientes
-- **Multi-usuário** com permissões granulares
+- **Multi-usuário** com 38 permissões granulares e 3 cargos customizáveis
 - **Dashboards analíticos** em tempo real
 
 ### 🎯 Diferenciais
@@ -57,6 +57,7 @@ Uma solução SaaS moderna e escalável para gestão completa de salões de bele
 - **[bcrypt](https://www.npmjs.com/package/bcrypt)** - Hash de senhas
 - **[Helmet](https://helmetjs.github.io/)** - Headers de segurança HTTP
 - **[express-rate-limit](https://www.npmjs.com/package/express-rate-limit)** - Proteção contra DDoS
+- **Sistema de Cargos e Permissões** - 38 permissões modulares para controle granular de acesso
 
 ### Validação & Qualidade
 - **[Zod](https://zod.dev/)** - Schema validation TypeScript-first
@@ -199,7 +200,15 @@ npm run prisma:generate
 npm run prisma:migrate
 
 # Popular com dados de exemplo (opcional)
+# Cria: 38 permissões, 3 cargos (Admin, Recepção, Profissional), usuários de teste
 npm run prisma:seed
+```
+
+**🔑 Credenciais criadas pelo seed:**
+```
+Admin:         admin@salao.com / admin123
+Recepção:      recepcao@salao.com / reception123
+Profissional:  maria@salao.com, ana@salao.com / staff123
 ```
 
 ### 5️⃣ Inicie o Servidor
@@ -466,6 +475,7 @@ GET    /api/v1/services/categories # Listar categorias disponíveis
 - **Avaliações** - Notas e feedback dos clientes
 - **Dashboard individual** - Métricas de desempenho
 - **Bloqueio de datas** - Férias, folgas, eventos
+- **Atribuição de cargos** - Definir função e permissões de cada profissional
 
 **Endpoints:**
 ```
@@ -476,9 +486,47 @@ PUT    /api/v1/staff/:id           # Atualizar dados do profissional
 DELETE /api/v1/staff/:id           # Deletar profissional
 GET    /api/v1/staff/:id/availability  # Verificar disponibilidade
 GET    /api/v1/staff/:id/schedule      # Obter horários de trabalho
+POST   /api/v1/staff/:id/assign-role   # Atribuir cargo a um profissional (Admin apenas)
 ```
 
-### 💰 6. Sistema de Pagamentos e Comissões
+### 👔 6. Sistema de Cargos e Permissões
+
+- **Gestão de cargos** - Criar, editar e deletar cargos customizados
+- **38 permissões disponíveis** - Controle granular por módulo e ação
+- **Atribuição de permissões** - Definir exatamente quais acessos cada cargo possui
+- **3 cargos padrão** - Admin, Recepção e Profissional pré-configurados
+- **Proteção de rotas** - Todas as rotas validam permissões automaticamente
+- **Acesso exclusivo Admin** - Apenas administradores gerenciam cargos
+
+**Módulos com permissões:**
+```
+clients.*          # Gestão de clientes (list, create, read, update, delete)
+appointments.*     # Agendamentos (list, create, read, update, delete, cancel, no-show)
+staff.*           # Profissionais (list, create, read, update, delete, availability, assign-role)
+services.*        # Serviços (list, create, read, update, delete)
+products.*        # Produtos e estoque (list, create, read, update, delete, stock)
+sales.*           # Vendas (list, create, read)
+payments.*        # Pagamentos (list, create, read, confirm, refund, report)
+expenses.*        # Despesas (list, create, read, update, delete)
+reports.*         # Relatórios (dashboard, financial, commissions)
+roles.*           # Gestão de cargos (list, create, read, update, delete, assign)
+reviews.*         # Avaliações (list, create, read, update, delete, stats)
+waitlist.*        # Lista de espera (list, create, read, update, delete, notify)
+```
+
+**Endpoints:**
+```
+GET    /api/v1/roles                    # Listar todos os cargos
+POST   /api/v1/roles                    # Criar novo cargo
+GET    /api/v1/roles/:id                # Buscar cargo específico
+PUT    /api/v1/roles/:id                # Atualizar cargo
+DELETE /api/v1/roles/:id                # Deletar cargo
+PUT    /api/v1/roles/:id/permissions    # Atribuir permissões a um cargo
+POST   /api/v1/roles/:roleId/assign/:userId  # Atribuir cargo a um usuário
+GET    /api/v1/roles/permissions        # Listar todas as permissões disponíveis
+```
+
+### 💰 7. Sistema de Pagamentos e Comissões
 
 - **Múltiplos métodos** - Dinheiro, cartão, PIX, link, carteira digital
 - **Confirmação de pagamento** - Manual ou automática (gateway)
@@ -497,7 +545,7 @@ POST   /api/v1/payments/:id/refund    # Processar reembolso
 GET    /api/v1/payments/report        # Relatório financeiro
 ```
 
-### 📦 7. Controle de Estoque
+### 📦 8. Controle de Estoque
 
 - **Cadastro de produtos** - Nome, SKU, preço, categoria
 - **Movimentações** - Entrada, saída, ajuste, venda
@@ -627,6 +675,12 @@ Todas as rotas (exceto login e registro) requerem autenticação via **Bearer To
 Authorization: Bearer {seu_access_token}
 ```
 
+**💡 Após o login, o token JWT contém:**
+- Dados do usuário (id, nome, email)
+- Cargo (role) atribuído
+- Lista de permissões do cargo
+- As rotas validam automaticamente as permissões necessárias
+
 ### Exemplo de Requisição
 
 ```bash
@@ -635,15 +689,22 @@ curl -X GET http://localhost:4000/api/v1/clients \
   -H "Content-Type: application/json"
 ```
 
-### Permissões por Role
+### Sistema de Permissões
 
-| Role | Descrição | Acesso |
-|------|-----------|--------|
-| `ADMIN` | Administrador | Acesso total ao sistema |
-| `MANAGER` | Gerente | Acesso completo exceto configurações críticas |
-| `RECEPTION` | Recepcionista | Agendamentos, clientes, pagamentos |
-| `STAFF` | Profissional | Visualização de agenda e clientes |
-| `CLIENT` | Cliente | Apenas seus próprios dados |
+O sistema utiliza **controle de acesso baseado em permissões granulares**:
+
+| Cargo | Descrição | Permissões |
+|------|-----------|-----------|
+| **Admin** | Administrador | Todas as 38 permissões - acesso completo ao sistema |
+| **Recepção** | Recepcionista | 12 permissões - clientes, agendamentos e lista de espera |
+| **Profissional** | Staff | 3 permissões - consulta de agendamentos e clientes |
+
+**Exemplo de validação de permissão:**
+- Para criar um cliente: requer permissão `clients.create`
+- Para cancelar agendamento: requer permissão `appointments.cancel`
+- Para gerenciar cargos: requer permissão `roles.*` (apenas Admin)
+
+📋 **Lista completa**: Consulte [docs/ROLES_AND_PERMISSIONS.md](docs/ROLES_AND_PERMISSIONS.md) para ver todas as 38 permissões disponíveis.
 
 ### Códigos de Status HTTP
 
@@ -653,7 +714,7 @@ curl -X GET http://localhost:4000/api/v1/clients \
 | `201` | Criado com sucesso |
 | `400` | Requisição inválida (erro de validação) |
 | `401` | Não autenticado (token inválido/expirado) |
-| `403` | Não autorizado (sem permissão) |
+| `403` | Não autorizado (sem permissão necessária) |
 | `404` | Recurso não encontrado |
 | `409` | Conflito (email já existe, etc.) |
 | `422` | Entidade não processável |
@@ -691,7 +752,9 @@ curl -X GET http://localhost:4000/api/v1/clients \
 ### Exemplos Completos de Uso
 
 Consulte a documentação detalhada em:
-- **[docs/TESTE_API.md](docs/TESTE_API.md)** - Exemplos de requisições
+- **[docs/ROUTES.md](docs/ROUTES.md)** - Guia completo com exemplos cURL para todas as rotas
+- **[docs/ROLES_AND_PERMISSIONS.md](docs/ROLES_AND_PERMISSIONS.md)** - Sistema de permissões detalhado
+- **[docs/TESTE_API.md](docs/TESTE_API.md)** - Exemplos práticos de uso
 - **[docs/ROTAS_IMPLEMENTADAS.md](docs/ROTAS_IMPLEMENTADAS.md)** - Lista completa de rotas
 
 ---
@@ -1012,7 +1075,7 @@ RATE_LIMIT_MAX_REQUESTS=50  # Mais restritivo
 | `npm run prisma:migrate` | Cria e aplica migrations (desenvolvimento) |
 | `npm run prisma:migrate:prod` | Aplica migrations em produção |
 | `npm run prisma:studio` | Abre Prisma Studio (GUI do banco) |
-| `npm run prisma:seed` | Popula banco com dados iniciais |
+| `npm run prisma:seed` | Popula banco com dados iniciais (38 permissões, 3 cargos, usuários teste) |
 
 ---
 
@@ -1021,6 +1084,8 @@ RATE_LIMIT_MAX_REQUESTS=50  # Mais restritivo
 Consulte a pasta `docs/` para documentação detalhada:
 
 - **[QUICKSTART_GUIDE.md](docs/QUICKSTART_GUIDE.md)** - Guia de início rápido passo a passo
+- **[ROUTES.md](docs/ROUTES.md)** - Guia completo de testes da API com exemplos cURL
+- **[ROLES_AND_PERMISSIONS.md](docs/ROLES_AND_PERMISSIONS.md)** - Sistema de cargos e permissões
 - **[ROTAS_IMPLEMENTADAS.md](docs/ROTAS_IMPLEMENTADAS.md)** - Lista completa de todas as rotas da API
 - **[IMPLEMENTACAO_COMPLETA.md](docs/IMPLEMENTACAO_COMPLETA.md)** - Detalhes técnicos da implementação
 - **[TESTE_API.md](docs/TESTE_API.md)** - Exemplos práticos de uso da API

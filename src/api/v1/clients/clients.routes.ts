@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as clientsController from './clients.controller';
-import { authenticate, authorize } from '../../../middlewares/auth.jwt';
+import { authenticate, checkPermission } from '../../../middlewares/auth.jwt';
 import { validateZod } from '../../../middlewares/validate';
 import { z } from 'zod';
 
@@ -39,45 +39,45 @@ router.use(authenticate);
 // Routes
 router.post(
   '/',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION'),
+  checkPermission('clients.create'),
   validateZod(createClientSchema),
   clientsController.createClient
 );
 
 router.get(
   '/',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION', 'STAFF'),
+  checkPermission('clients.read'),
   clientsController.getClients
 );
 
 router.get(
   '/inactive',
-  authorize('ADMIN', 'MANAGER'),
+  checkPermission('clients.read'),
   clientsController.getInactiveClients
 );
 
 router.get(
   '/:id',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION', 'STAFF'),
+  checkPermission('clients.read'),
   clientsController.getClient
 );
 
 router.put(
   '/:id',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION'),
+  checkPermission('clients.update'),
   validateZod(updateClientSchema),
   clientsController.updateClient
 );
 
 router.delete(
   '/:id',
-  authorize('ADMIN', 'MANAGER'),
+  checkPermission('clients.delete'),
   clientsController.deleteClient
 );
 
 router.get(
   '/:id/history',
-  authorize('ADMIN', 'MANAGER', 'RECEPTION', 'STAFF'),
+  checkPermission('clients.read'),
   clientsController.getClientHistory
 );
 

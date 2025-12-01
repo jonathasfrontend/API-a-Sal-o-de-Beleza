@@ -26,21 +26,28 @@ export class AuthService {
   async login(input: LoginInput): Promise<AuthResponse> {
     const { email, password } = input;
 
-    // Find user
-    const user = await prisma.user.findUnique({
+    // Find user with role and permissions
+    const user: any = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        role: true,
-        passwordHash: true,
-        isActive: true,
-      },
+      include: {
+        role: {
+          include: {
+            rolePermissions: {
+              include: {
+                permission: true,
+              },
+            },
+          },
+        },
+      } as any,
     });
 
     if (!user || !user.isActive) {
       throw new AppError('Invalid credentials', 401);
+    }
+
+    if (!user.role) {
+      throw new AppError('User has no role assigned', 401);
     }
 
     // Verify password
@@ -50,11 +57,14 @@ export class AuthService {
       throw new AppError('Invalid credentials', 401);
     }
 
+    // Extract permissions
+    const permissions = user.role.rolePermissions.map((rp: any) => rp.permission.name);
+
     // Generate tokens
     const accessToken = this.generateAccessToken({
       sub: user.id,
-      role: user.role,
-      permissions: this.getRolePermissions(user.role),
+      role: user.role.name,
+      permissions,
     });
 
     const refreshToken = await this.generateRefreshToken(user.id);
@@ -72,7 +82,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
+        role: user.role.name,
       },
       accessToken,
       refreshToken,
@@ -82,9 +92,23 @@ export class AuthService {
   async refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
     const tokenHash = this.hashToken(refreshToken);
 
-    const storedToken = await prisma.refreshToken.findUnique({
+    const storedToken: any = await prisma.refreshToken.findUnique({
       where: { tokenHash },
-      include: { user: true },
+      include: { 
+        user: {
+          include: {
+            role: {
+              include: {
+                rolePermissions: {
+                  include: {
+                    permission: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      } as any,
     });
 
     if (!storedToken || storedToken.revoked || storedToken.expiresAt < new Date()) {
@@ -95,6 +119,13 @@ export class AuthService {
       throw new AppError('User is inactive', 401);
     }
 
+    if (!storedToken.user.role) {
+      throw new AppError('User has no role assigned', 401);
+    }
+
+    // Extract permissions
+    const permissions = storedToken.user.role.rolePermissions.map((rp: any) => rp.permission.name);
+
     // Revoke old refresh token
     await prisma.refreshToken.update({
       where: { id: storedToken.id },
@@ -104,8 +135,8 @@ export class AuthService {
     // Generate new tokens
     const newAccessToken = this.generateAccessToken({
       sub: storedToken.user.id,
-      role: storedToken.user.role,
-      permissions: this.getRolePermissions(storedToken.user.role),
+      role: storedToken.user.role.name,
+      permissions,
     });
 
     const newRefreshToken = await this.generateRefreshToken(storedToken.user.id);
@@ -131,9 +162,9 @@ export class AuthService {
     email: string;
     password: string;
     name: string;
-    role?: string;
+    roleId?: string;
   }): Promise<AuthResponse> {
-    const { email, password, name, role = 'RECEPTION' } = input;
+    const { email, password, name, roleId } = input;
 
     // Check if user exists
     const existingUser = await prisma.user.findUnique({
@@ -144,30 +175,56 @@ export class AuthService {
       throw new AppError('Email already registered', 400);
     }
 
+    // Se roleId não for fornecido, buscar role "Recepção" como padrão
+    let finalRoleId = roleId;
+    if (!finalRoleId) {
+      const defaultRole: any = await (prisma as any).role.findUnique({
+        where: { name: 'Recepção' },
+      });
+      
+      if (!defaultRole) {
+        throw new AppError('Default role not found', 500);
+      }
+      
+      finalRoleId = defaultRole.id;
+    }
+
     // Hash password
     const passwordHash = await bcrypt.hash(password, 12);
 
     // Create user
-    const user = await prisma.user.create({
+    const user: any = await prisma.user.create({
       data: {
         email: email.toLowerCase(),
         passwordHash,
         name,
-        role: role as any,
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        role: true,
-      },
+        roleId: finalRoleId,
+      } as any,
+      include: {
+        role: {
+          include: {
+            rolePermissions: {
+              include: {
+                permission: true,
+              },
+            },
+          },
+        },
+      } as any,
     });
+
+    if (!user.role) {
+      throw new AppError('User role not found', 500);
+    }
+
+    // Extract permissions
+    const permissions = user.role.rolePermissions.map((rp: any) => rp.permission.name);
 
     // Generate tokens
     const accessToken = this.generateAccessToken({
       sub: user.id,
-      role: user.role,
-      permissions: this.getRolePermissions(user.role),
+      role: user.role.name,
+      permissions,
     });
 
     const refreshToken = await this.generateRefreshToken(user.id);
@@ -175,7 +232,12 @@ export class AuthService {
     logger.info(`New user registered: ${user.email}`);
 
     return {
-      user,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role.name,
+      },
       accessToken,
       refreshToken,
     };
@@ -207,39 +269,5 @@ export class AuthService {
 
   private hashToken(token: string): string {
     return createHash('sha256').update(token).digest('hex');
-  }
-
-  private getRolePermissions(role: string): string[] {
-    const permissions: Record<string, string[]> = {
-      ADMIN: ['*'],
-      MANAGER: [
-        'appointments:*',
-        'clients:*',
-        'staff:read',
-        'payments:*',
-        'reports:read',
-        'services:*',
-      ],
-      RECEPTION: [
-        'appointments:create',
-        'appointments:read',
-        'appointments:update',
-        'clients:*',
-        'payments:create',
-        'payments:read',
-      ],
-      STAFF: [
-        'appointments:read',
-        'clients:read',
-        'schedule:read',
-      ],
-      CLIENT: [
-        'appointments:create',
-        'appointments:read',
-        'profile:update',
-      ],
-    };
-
-    return permissions[role] || [];
   }
 }
