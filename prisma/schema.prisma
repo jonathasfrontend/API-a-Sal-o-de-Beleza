@@ -1,0 +1,473 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================
+// ENUMS
+// =============================================
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  RECEPTION
+  STAFF
+  CLIENT
+}
+
+enum CommissionType {
+  PERCENT
+  FIXED
+  TABLE
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentMethod {
+  CASH
+  DEBIT
+  CREDIT
+  PIX
+  LINK
+  WALLET
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIAL
+  REFUNDED
+  CANCELLED
+}
+
+enum NotificationType {
+  CONFIRMATION
+  REMINDER_24H
+  REMINDER_1H
+  CANCELLATION
+  PROMOTION
+  BIRTHDAY
+  REACTIVATION
+}
+
+enum NotificationChannel {
+  WHATSAPP
+  EMAIL
+  SMS
+  PUSH
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+}
+
+// =============================================
+// AUTHENTICATION & USERS
+// =============================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  name          String
+  role          UserRole  @default(RECEPTION)
+  isActive      Boolean   @default(true) @map("is_active")
+  phone         String?
+  avatar        String?
+  lastLogin     DateTime? @map("last_login")
+  
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  refreshTokens RefreshToken[]
+  staff         Staff?
+  auditLogs     AuditLog[]
+  createdAppointments Appointment[] @relation("CreatedBy")
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  tokenHash String    @map("token_hash") @unique
+  revoked   Boolean   @default(false)
+  expiresAt DateTime  @map("expires_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@map("refresh_tokens")
+}
+
+// =============================================
+// STAFF (PROFISSIONAIS)
+// =============================================
+
+model Staff {
+  id              String         @id @default(uuid())
+  userId          String         @unique @map("user_id")
+  specialties     String[]       // ["manicure", "cabelo", "maquiagem"]
+  commissionType  CommissionType @default(PERCENT) @map("commission_type")
+  commissionValue Float          @default(0) @map("commission_value")
+  workSchedule    Json?          @map("work_schedule") // { "monday": { "start": "09:00", "end": "18:00" }, ... }
+  blockedDates    Json?          @map("blocked_dates") // [{ "start": "2024-12-25", "end": "2024-12-26", "reason": "férias" }]
+  isAvailable     Boolean        @default(true) @map("is_available")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+  commissions  Commission[]
+
+  @@index([userId])
+  @@map("staff")
+}
+
+// =============================================
+// CLIENTS
+// =============================================
+
+model Client {
+  id            String    @id @default(uuid())
+  name          String
+  phone         String    @unique
+  email         String?
+  birthdate     DateTime?
+  cpf           String?   @unique
+  notes         String?   @db.Text
+  preferences   Json?     // { "preferredStaff": "uuid", "allergies": ["látex"], "favoriteColor": "#FF0000" }
+  loyaltyPoints Int       @default(0) @map("loyalty_points")
+  noShowCount   Int       @default(0) @map("no_show_count")
+  isBlocked     Boolean   @default(false) @map("is_blocked")
+  consentLGPD   Boolean   @default(false) @map("consent_lgpd")
+  consentDate   DateTime? @map("consent_date")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  appointments Appointment[]
+  payments     Payment[]
+  sales        Sale[]
+  reviews      Review[]
+
+  @@index([phone])
+  @@index([email])
+  @@map("clients")
+}
+
+// =============================================
+// SERVICES
+// =============================================
+
+model Service {
+  id              String  @id @default(uuid())
+  name            String
+  description     String? @db.Text
+  durationMinutes Int     @map("duration_minutes")
+  price           Float
+  category        String  // "cabelo", "unha", "estética", "maquiagem"
+  isActive        Boolean @default(true) @map("is_active")
+  allowsCombo     Boolean @default(true) @map("allows_combo")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([category])
+  @@map("services")
+}
+
+// =============================================
+// APPOINTMENTS (AGENDAMENTOS)
+// =============================================
+
+model Appointment {
+  id          String            @id @default(uuid())
+  clientId    String            @map("client_id")
+  staffId     String            @map("staff_id")
+  startTime   DateTime          @map("start_time")
+  endTime     DateTime          @map("end_time")
+  status      AppointmentStatus @default(SCHEDULED)
+  services    Json              // [{ "id": "uuid", "name": "Corte", "price": 50, "duration": 30 }]
+  totalAmount Float             @default(0) @map("total_amount")
+  notes       String?           @db.Text
+  isPaid      Boolean           @default(false) @map("is_paid")
+  
+  createdBy   String            @map("created_by")
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  // Relations
+  client       Client        @relation(fields: [clientId], references: [id])
+  staff        Staff         @relation(fields: [staffId], references: [id])
+  creator      User          @relation("CreatedBy", fields: [createdBy], references: [id])
+  payments     Payment[]
+  notifications Notification[]
+
+  @@index([startTime])
+  @@index([staffId, startTime])
+  @@index([clientId])
+  @@index([status])
+  @@map("appointments")
+}
+
+// =============================================
+// PAYMENTS & FINANCE
+// =============================================
+
+model Payment {
+  id                String        @id @default(uuid())
+  appointmentId     String?       @map("appointment_id")
+  clientId          String        @map("client_id")
+  amount            Float
+  method            PaymentMethod
+  status            PaymentStatus @default(PENDING)
+  gatewayReference  String?       @map("gateway_reference")
+  gatewayResponse   Json?         @map("gateway_response")
+  paidAt            DateTime?     @map("paid_at")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  appointment Appointment? @relation(fields: [appointmentId], references: [id])
+  client      Client       @relation(fields: [clientId], references: [id])
+  commissions Commission[]
+
+  @@index([appointmentId])
+  @@index([clientId])
+  @@index([status])
+  @@map("payments")
+}
+
+model Commission {
+  id        String   @id @default(uuid())
+  paymentId String   @map("payment_id")
+  staffId   String   @map("staff_id")
+  amount    Float
+  isPaid    Boolean  @default(false) @map("is_paid")
+  paidAt    DateTime? @map("paid_at")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  payment Payment @relation(fields: [paymentId], references: [id])
+  staff   Staff   @relation(fields: [staffId], references: [id])
+
+  @@index([staffId])
+  @@index([paymentId])
+  @@map("commissions")
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  description String
+  category    String   // "aluguel", "produtos", "salários", "água", "luz"
+  amount      Float
+  dueDate     DateTime @map("due_date")
+  paidDate    DateTime? @map("paid_date")
+  isPaid      Boolean  @default(false) @map("is_paid")
+  isRecurring Boolean  @default(false) @map("is_recurring")
+  notes       String?  @db.Text
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([dueDate])
+  @@index([category])
+  @@map("expenses")
+}
+
+// =============================================
+// PRODUCTS & INVENTORY
+// =============================================
+
+model Product {
+  id               String  @id @default(uuid())
+  sku              String  @unique
+  name             String
+  description      String? @db.Text
+  category         String
+  quantity         Int     @default(0)
+  costPrice        Float   @map("cost_price")
+  salePrice        Float   @map("sale_price")
+  reorderThreshold Int     @default(10) @map("reorder_threshold")
+  supplier         String?
+  isActive         Boolean @default(true) @map("is_active")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  stockMovements StockMovement[]
+  saleItems      SaleItem[]
+
+  @@index([sku])
+  @@index([category])
+  @@map("products")
+}
+
+model StockMovement {
+  id        String   @id @default(uuid())
+  productId String   @map("product_id")
+  type      String   // "IN" | "OUT" | "ADJUSTMENT"
+  quantity  Int
+  reason    String?
+  reference String?  // nota fiscal, venda ID, etc
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([productId])
+  @@map("stock_movements")
+}
+
+// =============================================
+// SALES (PDV)
+// =============================================
+
+model Sale {
+  id            String        @id @default(uuid())
+  clientId      String?       @map("client_id")
+  totalAmount   Float         @map("total_amount")
+  paymentMethod PaymentMethod @map("payment_method")
+  paymentStatus PaymentStatus @default(PAID) @map("payment_status")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  client Client?    @relation(fields: [clientId], references: [id])
+  items  SaleItem[]
+
+  @@index([clientId])
+  @@map("sales")
+}
+
+model SaleItem {
+  id        String @id @default(uuid())
+  saleId    String @map("sale_id")
+  productId String @map("product_id")
+  quantity  Int
+  unitPrice Float  @map("unit_price")
+  total     Float
+
+  sale    Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([saleId])
+  @@index([productId])
+  @@map("sale_items")
+}
+
+// =============================================
+// NOTIFICATIONS
+// =============================================
+
+model Notification {
+  id            String             @id @default(uuid())
+  appointmentId String?            @map("appointment_id")
+  type          NotificationType
+  channel       NotificationChannel
+  recipient     String             // phone or email
+  message       String             @db.Text
+  status        NotificationStatus @default(PENDING)
+  scheduledFor  DateTime?          @map("scheduled_for")
+  sentAt        DateTime?          @map("sent_at")
+  errorMessage  String?            @map("error_message") @db.Text
+  attempts      Int                @default(0)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  appointment Appointment? @relation(fields: [appointmentId], references: [id])
+
+  @@index([appointmentId])
+  @@index([status])
+  @@index([scheduledFor])
+  @@map("notifications")
+}
+
+// =============================================
+// REVIEWS & FEEDBACK
+// =============================================
+
+model Review {
+  id            String   @id @default(uuid())
+  clientId      String   @map("client_id")
+  rating        Int      // 1-5
+  comment       String?  @db.Text
+  serviceQuality Int?    @map("service_quality")
+  staffBehavior Int?     @map("staff_behavior")
+  cleanliness   Int?
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  client Client @relation(fields: [clientId], references: [id])
+
+  @@index([clientId])
+  @@map("reviews")
+}
+
+// =============================================
+// AUDIT & SECURITY
+// =============================================
+
+model AuditLog {
+  id       String   @id @default(uuid())
+  userId   String?  @map("user_id")
+  action   String   // "CREATE", "UPDATE", "DELETE", "LOGIN", "LOGOUT"
+  entity   String   // "appointment", "payment", "user"
+  entityId String?  @map("entity_id")
+  payload  Json?
+  ipAddress String? @map("ip_address")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entity, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// =============================================
+// WAITLIST (LISTA DE ESPERA)
+// =============================================
+
+model Waitlist {
+  id          String   @id @default(uuid())
+  clientName  String   @map("client_name")
+  clientPhone String   @map("client_phone")
+  serviceId   String   @map("service_id")
+  preferredDate DateTime? @map("preferred_date")
+  notes       String?  @db.Text
+  isContacted Boolean  @default(false) @map("is_contacted")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([isContacted])
+  @@map("waitlist")
+}

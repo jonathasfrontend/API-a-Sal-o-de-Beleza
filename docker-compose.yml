@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: salao-postgres
+    environment:
+      POSTGRES_USER: salao
+      POSTGRES_PASSWORD: salao123
+      POSTGRES_DB: salao_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U salao"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: salao-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: salao-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      PORT: 4000
+      NODE_ENV: production
+      DATABASE_URL: postgresql://salao:salao123@postgres:5432/salao_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key}
+      JWT_ACCESS_EXPIRATION: 15m
+      JWT_REFRESH_EXPIRATION: 30d
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  # Prisma Studio (opcional - para desenvolvimento)
+  prisma-studio:
+    image: node:18-alpine
+    container_name: salao-prisma-studio
+    working_dir: /app
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://salao:salao123@postgres:5432/salao_db
+    volumes:
+      - ./prisma:/app/prisma
+      - ./package.json:/app/package.json
+    command: sh -c "npm install prisma && npx prisma studio"
+    ports:
+      - "5555:5555"
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
+  redis_data:
