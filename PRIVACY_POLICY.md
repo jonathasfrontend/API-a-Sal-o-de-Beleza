@@ -4,245 +4,179 @@
 
 ## 1. Introdução
 
-Esta Política de Privacidade descreve como o **[Nome do Projeto/Empresa]** ("nós", "nosso" ou "Sistema") coleta, usa, armazena e protege as informações pessoais dos usuários ("você" ou "usuário") que utilizam nosso sistema de gerenciamento para salões de beleza.
+Esta Política de Privacidade descreve como o **Sistema de Gerenciamento de Salão de Beleza** (doravante "Sistema", "nós" ou "nosso") coleta, usa, armazena e protege as informações pessoais dos usuários ("você" ou "usuário") que utilizam nossa plataforma.
 
-Ao utilizar nosso sistema, você concorda com a coleta e uso de informações de acordo com esta política. Se você não concorda com os termos aqui descritos, pedimos que não utilize nossos serviços.
+Ao utilizar este Sistema, você concorda com a coleta e uso de informações de acordo com esta política. Se você não concordar com qualquer parte desta política, não utilize o Sistema.
 
 ## 2. Informações que Coletamos
 
-### 2.1. Informações Fornecidas Diretamente por Você
+### 2.1 Informações Fornecidas Diretamente
 
-Coletamos informações que você nos fornece ao:
+Coletamos informações que você nos fornece diretamente ao:
 
-- **Criar uma conta:** nome completo, e-mail, telefone, CPF/CNPJ, endereço, senha criptografada
-- **Cadastrar clientes:** nome, telefone, e-mail, data de nascimento, histórico de serviços
-- **Cadastrar funcionários:** nome, e-mail, telefone, cargo, comissões, documentos
-- **Agendar serviços:** data, horário, serviço solicitado, profissional preferido
-- **Realizar pagamentos:** dados de transação (não armazenamos dados de cartão de crédito)
-- **Gerenciar estoque:** produtos, quantidades, fornecedores
-- **Registrar despesas:** descrição, valor, categoria, data
-- **Enviar avaliações:** comentários, notas, feedback
+- **Criar uma conta:** nome completo, e-mail, telefone, senha (criptografada);
+- **Cadastrar clientes:** nome, telefone, e-mail, histórico de atendimentos, preferências de serviços;
+- **Registrar funcionários:** nome, cargo, telefone, e-mail, dados de acesso;
+- **Agendar serviços:** data, horário, tipo de serviço, profissional responsável;
+- **Processar pagamentos:** informações de transações financeiras (valores, métodos de pagamento);
+- **Gerenciar produtos e estoque:** descrições, preços, quantidades;
+- **Registrar despesas:** descrição, categoria, valor, data.
 
-### 2.2. Informações Coletadas Automaticamente
+### 2.2 Informações Coletadas Automaticamente
 
-Nosso sistema pode coletar automaticamente:
+Quando você utiliza o Sistema, podemos coletar automaticamente:
 
-- **Dados de uso:** páginas acessadas, funcionalidades utilizadas, frequência de uso
-- **Dados técnicos:** endereço IP, tipo de navegador, sistema operacional, identificador do dispositivo
-- **Logs de sistema:** registros de ações realizadas, horários de acesso, erros encontrados
-- **Cookies e tecnologias similares:** para melhorar a experiência do usuário e manter sessões
+- **Logs de acesso:** endereço IP, data e hora de acesso, ações realizadas;
+- **Informações técnicas:** tipo de navegador, sistema operacional, dispositivo utilizado;
+- **Dados de uso:** funcionalidades acessadas, tempo de sessão, erros encontrados.
 
-### 2.3. Informações de Terceiros
+### 2.3 Cookies e Tecnologias Similares
 
-Podemos receber informações de serviços integrados:
+O Sistema utiliza cookies e tokens de autenticação (JWT) para:
 
-- **WhatsApp Business API:** status de envio de mensagens, confirmações de leitura
-- **Serviços de pagamento:** confirmações de transações, status de pagamentos
-- **Serviços de e-mail:** status de entregas, taxas de abertura
+- Manter sua sessão ativa e autenticada;
+- Melhorar a experiência de uso;
+- Garantir a segurança das transações.
+
+Você pode desabilitar cookies nas configurações do seu navegador, mas isso pode afetar algumas funcionalidades do Sistema.
 
 ## 3. Como Utilizamos suas Informações
 
 Utilizamos as informações coletadas para:
 
-### 3.1. Operação do Sistema
-
-- Fornecer, operar e manter as funcionalidades do sistema
-- Processar agendamentos, pagamentos e transações
-- Gerenciar contas de usuários, clientes e funcionários
-- Calcular comissões e gerar relatórios financeiros
-- Controlar estoque e inventário de produtos
-
-### 3.2. Comunicação
-
-- Enviar confirmações de agendamento via WhatsApp ou e-mail
-- Enviar lembretes de compromissos agendados
-- Notificar sobre mudanças no serviço ou atualizações importantes
-- Responder a solicitações de suporte e dúvidas
-
-### 3.3. Melhoria e Análise
-
-- Analisar como o sistema é utilizado para melhorar funcionalidades
-- Realizar análises estatísticas e gerar insights de negócio
-- Identificar e corrigir problemas técnicos
-- Desenvolver novos recursos e aprimoramentos
-
-### 3.4. Segurança e Conformidade
-
-- Prevenir fraudes e atividades maliciosas
-- Proteger a segurança e integridade do sistema
-- Cumprir obrigações legais e regulatórias
-- Responder a solicitações legais de autoridades
+- **Fornecer e operar o Sistema:** processar agendamentos, pagamentos, registros de vendas e serviços;
+- **Gerenciar relacionamentos:** manter cadastro de clientes, funcionários e fornecedores;
+- **Enviar notificações:** lembretes de agendamentos, confirmações, atualizações importantes;
+- **Gerar relatórios:** análises financeiras, estatísticas de vendas, desempenho de serviços;
+- **Melhorar o Sistema:** identificar problemas, desenvolver novas funcionalidades;
+- **Garantir segurança:** prevenir fraudes, uso não autorizado e atividades maliciosas;
+- **Cumprir obrigações legais:** atender requisitos fiscais, contábeis e regulatórios.
 
 ## 4. Compartilhamento de Informações
 
-### 4.1. Não Vendemos seus Dados
+### 4.1 Com Terceiros
 
-Nós **nunca vendemos, alugamos ou comercializamos** suas informações pessoais para terceiros.
+Podemos compartilhar suas informações com terceiros apenas nas seguintes situações:
 
-### 4.2. Compartilhamento Permitido
+- **Prestadores de serviço:** provedores de infraestrutura (hosting, banco de dados), serviços de pagamento, envio de e-mails e mensagens (WhatsApp);
+- **Autoridades legais:** quando exigido por lei, ordem judicial ou autoridades competentes;
+- **Transferência de negócio:** em caso de fusão, aquisição ou venda de ativos, seus dados podem ser transferidos (você será notificado previamente).
 
-Podemos compartilhar suas informações apenas nas seguintes situações:
+### 4.2 Com Seu Consentimento
 
-- **Prestadores de serviço:** provedores de infraestrutura (hospedagem, banco de dados), serviços de e-mail e WhatsApp, gateways de pagamento - todos sob acordos de confidencialidade
-- **Requisitos legais:** quando exigido por lei, ordem judicial ou autoridade competente
-- **Proteção de direitos:** para proteger nossos direitos, propriedade ou segurança, ou de nossos usuários
-- **Transferência de negócio:** em caso de fusão, aquisição ou venda de ativos (você será notificado)
-- **Consentimento expresso:** quando você autorizar explicitamente o compartilhamento
+Não compartilharemos suas informações para fins comerciais ou marketing sem seu consentimento explícito.
 
-### 4.3. Terceiros Utilizados
+### 4.3 Dados Públicos
 
-Atualmente, utilizamos os seguintes serviços terceirizados:
+Informações disponibilizadas publicamente por você (ex: avaliações públicas de serviços) podem ser visualizadas por outros usuários do Sistema.
 
-- **Supabase/PostgreSQL:** armazenamento de dados
-- **Redis Cloud:** cache e filas de processamento
-- **WhatsApp Business API:** envio de notificações
-- **Nodemailer:** envio de e-mails
-- **[Provedor de Pagamentos]:** processamento de transações financeiras
-- **Sentry:** monitoramento de erros e performance
+## 5. Armazenamento e Segurança
 
-## 5. Armazenamento e Segurança dos Dados
+### 5.1 Onde Armazenamos
 
-### 5.1. Onde Armazenamos
+Os dados são armazenados em servidores seguros localizados em [ESPECIFICAR LOCALIZAÇÃO - ex: Brasil, AWS São Paulo, etc.]. Utilizamos o banco de dados PostgreSQL com medidas de segurança adequadas.
 
-Seus dados são armazenados em servidores seguros localizados em **[região/país do servidor]**, em conformidade com as melhores práticas de segurança da informação.
+### 5.2 Medidas de Segurança
 
-### 5.2. Medidas de Segurança
+Implementamos medidas técnicas e organizacionais para proteger seus dados:
 
-Implementamos medidas técnicas e organizacionais para proteger suas informações:
+- **Criptografia:** senhas são armazenadas com hash bcrypt; dados sensíveis são criptografados em trânsito (HTTPS/TLS);
+- **Autenticação:** sistema de autenticação baseado em JWT (JSON Web Tokens);
+- **Controle de acesso:** níveis de permissão diferenciados (administrador, funcionário, cliente);
+- **Backups regulares:** cópias de segurança automáticas para prevenir perda de dados;
+- **Monitoramento:** logs de acesso e atividades suspeitas são monitorados continuamente.
 
-- **Criptografia:** senhas são criptografadas usando bcrypt; dados sensíveis são criptografados em trânsito (HTTPS/TLS)
-- **Autenticação:** sistema de autenticação JWT (JSON Web Token) com tokens de curta duração
-- **Controle de acesso:** permissões baseadas em funções (RBAC) para limitar acesso a dados sensíveis
-- **Monitoramento:** logs de auditoria e monitoramento contínuo de atividades suspeitas
-- **Backups:** backups regulares e automáticos dos dados
-- **Atualizações:** manutenção regular e aplicação de patches de segurança
-- **Proteção contra ataques:** rate limiting, proteção contra SQL injection, XSS e CSRF
+### 5.3 Retenção de Dados
 
-### 5.3. Limitações
+Mantemos seus dados pelo tempo necessário para cumprir as finalidades descritas nesta política, exceto quando:
 
-Apesar de nossos esforços, nenhum sistema é 100% seguro. Você é responsável por manter a confidencialidade de suas credenciais de acesso.
+- Exigido por lei para períodos mais longos;
+- Necessário para resolver disputas ou fazer cumprir nossos acordos.
 
-### 5.4. Retenção de Dados
-
-Mantemos suas informações pelo tempo necessário para:
-
-- Cumprir os propósitos descritos nesta política
-- Atender requisitos legais, contábeis ou fiscais
-- Resolver disputas e fazer cumprir nossos acordos
-
-Quando os dados não forem mais necessários, serão anonimizados ou excluídos de forma segura.
+Você pode solicitar a exclusão de seus dados a qualquer momento (veja a seção de Direitos do Usuário).
 
 ## 6. Seus Direitos sobre os Dados
 
-De acordo com a **Lei Geral de Proteção de Dados (LGPD)** e regulamentações aplicáveis, você tem os seguintes direitos:
+De acordo com a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018) e outras legislações aplicáveis, você tem os seguintes direitos:
 
-### 6.1. Direito de Acesso
+### 6.1 Direito de Acesso
 
-Você pode solicitar uma cópia de todos os dados pessoais que mantemos sobre você.
+Solicitar cópias das informações pessoais que mantemos sobre você.
 
-### 6.2. Direito de Retificação
+### 6.2 Direito de Correção
 
-Você pode solicitar a correção de dados incorretos, incompletos ou desatualizados.
+Solicitar a correção de informações imprecisas ou incompletas.
 
-### 6.3. Direito de Exclusão
+### 6.3 Direito de Exclusão
 
-Você pode solicitar a exclusão de seus dados pessoais, exceto quando a manutenção for necessária por obrigações legais ou contratuais.
+Solicitar a exclusão de seus dados pessoais, salvo quando sua retenção for necessária para:
+- Cumprimento de obrigação legal ou regulatória;
+- Exercício regular de direitos em processos judiciais, administrativos ou arbitrais.
 
-### 6.4. Direito de Portabilidade
+### 6.4 Direito à Portabilidade
 
-Você pode solicitar a transferência de seus dados para outro fornecedor de serviço, quando tecnicamente viável.
+Solicitar a transferência de seus dados para outro fornecedor de serviço ou produto, mediante requisição expressa.
 
-### 6.5. Direito de Oposição
+### 6.5 Direito de Revogação do Consentimento
 
-Você pode se opor ao processamento de seus dados para determinadas finalidades.
+Retirar seu consentimento para o tratamento de dados a qualquer momento.
 
-### 6.6. Direito de Revogação do Consentimento
+### 6.6 Direito de Informação
 
-Você pode revogar seu consentimento a qualquer momento, sem prejudicar a legalidade do processamento anterior.
+Solicitar informações sobre as entidades públicas e privadas com as quais compartilhamos seus dados.
 
-### 6.7. Direito de Informação
+### 6.7 Como Exercer seus Direitos
 
-Você tem direito a informações claras sobre como seus dados são tratados.
+Para exercer qualquer um desses direitos, entre em contato conosco através dos canais indicados na seção de Contato.
 
-### 6.8. Como Exercer seus Direitos
+## 7. Proteção de Dados de Menores
 
-Para exercer qualquer um desses direitos, entre em contato através do e-mail: **[seu-email@exemplo.com]**
+O Sistema não é destinado a menores de 18 anos. Não coletamos intencionalmente informações de menores sem o consentimento dos pais ou responsáveis legais. Se tomarmos conhecimento de que coletamos dados de menores sem a devida autorização, tomaremos medidas para excluir essas informações.
 
-Responderemos sua solicitação em até **15 dias úteis**.
+## 8. Transferência Internacional de Dados
 
-## 7. Dados de Menores de Idade
+Atualmente, não transferimos dados pessoais para fora do Brasil. Caso isso venha a ocorrer no futuro, você será notificado e garantiremos que a transferência esteja em conformidade com a LGPD e outras legislações aplicáveis.
 
-Nosso sistema não é destinado a menores de 18 anos. Não coletamos intencionalmente informações de menores. Se você acredita que coletamos dados de um menor inadvertidamente, entre em contato imediatamente para que possamos removê-los.
+## 9. Alterações nesta Política
 
-**Exceção:** Dados de clientes menores podem ser cadastrados por responsáveis legais para fins de agendamento de serviços.
+Reservamo-nos o direito de modificar esta Política de Privacidade a qualquer momento. Quando fizermos alterações significativas, notificaremos você por:
 
-## 8. Cookies e Tecnologias de Rastreamento
+- E-mail cadastrado no Sistema;
+- Aviso destacado na interface do Sistema;
+- Atualização da data "Última atualização" no topo deste documento.
 
-### 8.1. O que são Cookies
+Recomendamos que você revise esta política periodicamente. O uso continuado do Sistema após as alterações constitui sua aceitação da política atualizada.
 
-Cookies são pequenos arquivos de texto armazenados em seu dispositivo para melhorar sua experiência.
+## 10. Legislação e Foro Aplicável
 
-### 8.2. Tipos de Cookies Utilizados
+Esta Política de Privacidade é regida pelas leis da República Federativa do Brasil, em especial:
 
-- **Cookies essenciais:** necessários para o funcionamento do sistema (autenticação, sessões)
-- **Cookies de preferência:** lembram suas configurações e preferências
-- **Cookies analíticos:** nos ajudam a entender como o sistema é utilizado
-- **Cookies de segurança:** detectam atividades fraudulentas e protegem o sistema
+- Lei Geral de Proteção de Dados Pessoais (LGPD - Lei 13.709/2018);
+- Marco Civil da Internet (Lei 12.965/2014);
+- Código de Defesa do Consumidor (Lei 8.078/1990);
+- Código Civil Brasileiro (Lei 10.406/2002).
 
-### 8.3. Gerenciamento de Cookies
+Eventuais disputas relacionadas a esta política serão submetidas ao foro da comarca de [ESPECIFICAR CIDADE/ESTADO], com exclusão de qualquer outro, por mais privilegiado que seja.
 
-Você pode configurar seu navegador para recusar cookies, mas isso pode limitar algumas funcionalidades do sistema.
+## 11. Encarregado de Proteção de Dados (DPO)
 
-## 9. Transferência Internacional de Dados
+Para questões relacionadas à proteção de dados e privacidade, você pode entrar em contato com nosso Encarregado de Proteção de Dados:
 
-Se você estiver localizado fora do **[país]**, seus dados podem ser transferidos e processados em servidores localizados em outros países. Ao usar nosso sistema, você consente com essa transferência, que será realizada com garantias adequadas de proteção.
+**Nome:** [NOME DO DPO OU RESPONSÁVEL]  
+**E-mail:** [EMAIL_DPO@EXEMPLO.COM]  
+**Telefone:** [TELEFONE DE CONTATO]
 
-## 10. Atualizações desta Política
+## 12. Contato
 
-Podemos atualizar esta Política de Privacidade periodicamente para refletir mudanças em nossas práticas ou por requisitos legais.
+Se você tiver dúvidas, preocupações ou solicitações relacionadas a esta Política de Privacidade ou ao tratamento de seus dados pessoais, entre em contato conosco:
 
-- **Notificação:** você será notificado sobre alterações significativas por e-mail ou através de aviso no sistema
-- **Data de vigência:** as alterações entram em vigor imediatamente após a publicação
-- **Aceitação:** o uso continuado do sistema após as alterações constitui aceitação da nova política
-
-Recomendamos revisar esta política regularmente.
-
-## 11. Legislação Aplicável
-
-Esta Política de Privacidade é regida pelas leis brasileiras, especialmente:
-
-- **Lei Geral de Proteção de Dados (LGPD)** - Lei nº 13.709/2018
-- **Marco Civil da Internet** - Lei nº 12.965/2014
-- **Código de Defesa do Consumidor** - Lei nº 8.078/1990
-
-Quaisquer disputas serão resolvidas nos tribunais da comarca de **[sua cidade/estado]**.
-
-## 12. Contato e Encarregado de Dados
-
-Para questões sobre privacidade, exercício de direitos ou dúvidas sobre esta política:
-
-**Encarregado de Proteção de Dados (DPO)**  
-**E-mail:** [dpo@seudominio.com] ou [contato@seudominio.com]  
-**Endereço:** [Seu endereço completo]  
-**Telefone:** [Seu telefone com DDD]  
-
-**Horário de atendimento:** [Dias e horários]
-
-Comprometemo-nos a responder todas as solicitações em até 15 dias úteis.
+**Responsável pelo Sistema:** [NOME DA EMPRESA/DESENVOLVEDOR]  
+**E-mail:** [CONTATO@EXEMPLO.COM]  
+**Endereço:** [ENDEREÇO COMPLETO]  
+**Telefone:** [TELEFONE]
 
 ---
 
-## Glossário de Termos
+**Declaração de Compromisso**
 
-- **Dados Pessoais:** qualquer informação que identifique ou possa identificar uma pessoa
-- **Titular dos Dados:** pessoa a quem os dados pessoais se referem
-- **Tratamento:** qualquer operação realizada com dados (coleta, armazenamento, uso, etc.)
-- **Controlador:** entidade que decide sobre o tratamento dos dados (nós)
-- **Operador:** entidade que processa dados em nome do controlador
-- **Anonimização:** processo de tornar dados impossíveis de serem associados a uma pessoa
-
----
-
-**Ao utilizar nosso sistema, você declara ter lido, compreendido e concordado com esta Política de Privacidade.**
-
-Se você tiver dúvidas ou não concordar com algum ponto, entre em contato conosco antes de continuar usando o serviço.
+Comprometemo-nos a manter a transparência no tratamento de dados pessoais e a cumprir todas as obrigações legais relacionadas à privacidade e proteção de dados. Sua confiança é essencial para nós.

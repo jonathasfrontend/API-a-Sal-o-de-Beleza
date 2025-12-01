@@ -4,441 +4,361 @@
 
 ## 1. Aceitação dos Termos
 
-Bem-vindo a **Api de sistemas de gerenciamento de salões de beleza** ("Sistema", "nós" ou "nosso"). Estes Termos de Serviço ("Termos") regem o uso do nosso sistema de gerenciamento para salões de beleza, incluindo todas as funcionalidades, APIs, integrações e serviços relacionados.
+Bem-vindo ao **Sistema de Gerenciamento de Salão de Beleza** (doravante "Sistema", "Serviço", "nós" ou "nosso").
 
-Ao acessar ou utilizar nosso sistema, você ("Usuário", "você" ou "Cliente") concorda em cumprir e estar vinculado a estes Termos. Se você não concorda com qualquer parte destes Termos, não utilize nosso serviço.
+Estes Termos de Serviço ("Termos") constituem um acordo legal entre você ("Usuário", "você" ou "seu") e o Sistema. Ao acessar ou utilizar o Sistema, você concorda em cumprir e estar vinculado a estes Termos.
 
-**IMPORTANTE:** Ao clicar em "Aceitar", criar uma conta ou utilizar o sistema, você confirma que leu, compreendeu e concordou com estes Termos de Serviço e nossa Política de Privacidade.
+**Se você não concordar com qualquer parte destes Termos, não utilize o Sistema.**
 
-## 2. Descrição do Serviço
+## 2. Definição do Serviço
 
-### 2.1. O que é o Sistema
+### 2.1 Descrição
 
-O **Api de sistemas de gerenciamento de salões de beleza** é uma plataforma SaaS (Software as a Service) de gerenciamento empresarial projetada especificamente para salões de beleza, barbearias e estabelecimentos similares.
+O Sistema é uma plataforma digital desenvolvida para gerenciamento de salões de beleza, oferecendo funcionalidades para:
 
-### 2.2. Funcionalidades Principais
+- **Gestão de Clientes:** cadastro, histórico de atendimentos, preferências;
+- **Agendamento de Serviços:** marcação, confirmação e controle de horários;
+- **Gestão de Funcionários:** cadastro de profissionais, controle de acesso, gerenciamento de comissões;
+- **Controle Financeiro:** registro de vendas, pagamentos, despesas e relatórios financeiros;
+- **Gestão de Produtos:** controle de estoque, preços e vendas;
+- **Lista de Espera:** gerenciamento de filas e prioridades;
+- **Avaliações:** sistema de feedback e avaliações de serviços;
+- **Notificações:** lembretes automáticos via e-mail e WhatsApp;
+- **Relatórios:** análises estatísticas e gerenciais do negócio.
 
-O sistema oferece, mas não se limita a:
+### 2.2 Disponibilidade
 
-- **Gestão de Agendamentos:** calendário online, confirmações automáticas, lembretes via WhatsApp e e-mail
-- **Controle Financeiro:** receitas, despesas, fluxo de caixa, relatórios financeiros
-- **Cadastro de Clientes:** histórico de serviços, preferências, dados de contato
-- **Gestão de Equipe:** cadastro de funcionários, comissões, escalas, avaliações de desempenho
-- **Controle de Estoque:** produtos, movimentações, alertas de estoque baixo
-- **Pagamentos:** integração com gateways de pagamento, controle de recebimentos
-- **Relatórios e Análises:** dashboards, métricas de desempenho, insights de negócio
-- **Notificações Automáticas:** lembretes, confirmações e comunicações via WhatsApp e e-mail
-- **Lista de Espera:** gerenciamento de clientes aguardando horários disponíveis
-- **Sistema de Avaliações:** coleta de feedback dos clientes
+O Sistema é fornecido "como está" e "conforme disponível". Embora nos esforcemos para manter o Serviço disponível 24 horas por dia, 7 dias por semana, não garantimos disponibilidade ininterrupta devido a:
 
-### 2.3. Disponibilidade do Serviço
+- Manutenções programadas ou emergenciais;
+- Falhas técnicas ou de infraestrutura;
+- Eventos fora de nosso controle (caso fortuito ou força maior).
 
-- **Acesso 24/7:** nos esforçamos para manter o sistema disponível 24 horas por dia, 7 dias por semana
-- **Manutenções programadas:** podem ocorrer períodos de indisponibilidade para atualizações e manutenções, com aviso prévio quando possível
-- **SLA (Service Level Agreement):** não garantimos disponibilidade de 100%, mas buscamos manter uptime superior a 99%
+## 3. Elegibilidade e Registro
 
-## 3. Registro e Conta de Usuário
+### 3.1 Capacidade Legal
 
-### 3.1. Elegibilidade
+Para usar o Sistema, você deve:
 
-Para usar o sistema, você deve:
+- Ter pelo menos 18 anos de idade ou a maioridade legal em sua jurisdição;
+- Ter capacidade legal para celebrar contratos vinculativos;
+- Não estar impedido de usar o Serviço por qualquer lei aplicável.
 
-- Ter pelo menos 18 anos de idade
-- Ser legalmente capaz de celebrar contratos
-- Possuir um estabelecimento comercial ou estar autorizado a gerenciá-lo
-- Fornecer informações verdadeiras, precisas e completas
-- Manter suas informações atualizadas
+### 3.2 Criação de Conta
 
-### 3.2. Criação de Conta
+Para acessar certas funcionalidades, você deve criar uma conta fornecendo:
 
-Para acessar o sistema, você deve:
+- Informações precisas, completas e atualizadas;
+- Credenciais de login seguras (e-mail e senha);
+- Dados do estabelecimento (se aplicável).
 
-- Criar uma conta fornecendo nome, e-mail, telefone e outras informações solicitadas
-- Escolher uma senha forte e mantê-la confidencial
-- Aceitar estes Termos de Serviço e a Política de Privacidade
-- Verificar seu e-mail ou telefone, quando solicitado
-
-### 3.3. Responsabilidades da Conta
+### 3.3 Responsabilidade pela Conta
 
 Você é responsável por:
 
-- Manter a segurança de suas credenciais de acesso (usuário e senha)
-- Todas as atividades realizadas em sua conta
-- Notificar-nos imediatamente sobre qualquer uso não autorizado
-- Garantir que apenas pessoas autorizadas tenham acesso à sua conta
-- Não compartilhar suas credenciais com terceiros
+- Manter a confidencialidade de suas credenciais de acesso;
+- Todas as atividades realizadas em sua conta;
+- Notificar-nos imediatamente sobre qualquer uso não autorizado;
+- Garantir que o acesso à sua conta esteja devidamente protegido.
 
-### 3.4. Conta de Administrador vs. Usuários
-
-- **Administrador:** possui acesso completo e é responsável pela gestão de permissões
-- **Funcionários/Usuários:** acessos limitados conforme permissões definidas pelo administrador
-- O administrador é responsável pelas ações de todos os usuários vinculados à sua conta
-
-### 3.5. Suspensão ou Encerramento de Conta
-
-Reservamo-nos o direito de suspender ou encerrar sua conta se:
-
-- Você violar estes Termos de Serviço
-- Suas atividades causarem riscos à segurança do sistema
-- Você fornecer informações falsas ou fraudulentas
-- Houver inadimplência no pagamento (para planos pagos)
-- Receber solicitação legal ou de autoridades competentes
+**Não compartilhe suas credenciais com terceiros.** Não nos responsabilizamos por perdas decorrentes de uso não autorizado de sua conta.
 
 ## 4. Condições de Uso
 
-### 4.1. Uso Permitido
+### 4.1 Uso Permitido
 
-Você concorda em usar o sistema apenas para:
+Você concorda em usar o Sistema apenas para:
 
-- Gerenciar legitimamente seu negócio de salão de beleza ou similar
-- Finalidades legais e de acordo com estes Termos
-- Armazenar e processar dados de clientes com consentimento apropriado
+- Gerenciar suas atividades comerciais de salão de beleza de forma lícita;
+- Finalidades legítimas e em conformidade com estes Termos;
+- Respeitar os direitos de terceiros e as leis aplicáveis.
 
-### 4.2. Uso Proibido
+### 4.2 Uso Proibido
 
-Você **NÃO PODE**:
+É expressamente proibido:
 
-- Usar o sistema para atividades ilegais, fraudulentas ou não autorizadas
-- Violar direitos de propriedade intelectual de terceiros
-- Transmitir vírus, malware ou código malicioso
-- Tentar acessar áreas restritas do sistema ou contas de outros usuários
-- Fazer engenharia reversa, descompilar ou tentar extrair o código-fonte
-- Usar o sistema para enviar spam ou comunicações não solicitadas
-- Sobrecarregar a infraestrutura com requisições excessivas
-- Copiar, modificar, distribuir ou revender o sistema sem autorização
-- Remover avisos de direitos autorais ou marcas registradas
-- Utilizar bots, scripts ou automações não autorizadas
-- Armazenar dados sensíveis sem as devidas proteções
+- **Violar leis:** usar o Sistema para atividades ilegais, fraudulentas ou não autorizadas;
+- **Comprometer segurança:** tentar hackear, descompilar, fazer engenharia reversa ou violar a segurança do Sistema;
+- **Uso indevido de dados:** coletar, usar ou divulgar dados de outros usuários sem autorização;
+- **Spam e abuso:** enviar comunicações não solicitadas, spam ou conteúdo malicioso;
+- **Sobrecarga:** sobrecarregar intencionalmente a infraestrutura do Sistema;
+- **Conteúdo inadequado:** publicar conteúdo ofensivo, difamatório, obsceno, discriminatório ou ilegal;
+- **Falsidade ideológica:** fornecer informações falsas, enganosas ou fraudulentas;
+- **Violação de propriedade intelectual:** infringir direitos autorais, marcas registradas ou outros direitos de propriedade;
+- **Revenda não autorizada:** comercializar ou revender o acesso ao Sistema sem autorização expressa.
 
-### 4.3. Conteúdo do Usuário
+### 4.3 Consequências de Violação
 
-- **Propriedade:** você mantém todos os direitos sobre os dados que insere no sistema
-- **Licença de uso:** ao usar o sistema, você nos concede uma licença limitada para processar, armazenar e exibir seus dados exclusivamente para fornecer o serviço
-- **Responsabilidade:** você é responsável pelo conteúdo que insere e deve ter as autorizações necessárias
-- **Conteúdo ilegal:** não armazene conteúdo ilegal, difamatório, ofensivo ou que viole direitos de terceiros
+A violação destas condições pode resultar em:
+
+- Suspensão ou encerramento imediato de sua conta;
+- Remoção de conteúdo inadequado;
+- Responsabilização civil e criminal conforme a lei;
+- Bloqueio permanente de acesso ao Sistema.
 
 ## 5. Propriedade Intelectual
 
-### 5.1. Direitos do Sistema
+### 5.1 Direitos do Sistema
 
-Todos os direitos de propriedade intelectual relacionados ao sistema, incluindo:
+Todos os direitos de propriedade intelectual relacionados ao Sistema, incluindo mas não limitado a:
 
-- Código-fonte, software, algoritmos e arquitetura
-- Design, interface, layouts e elementos visuais
-- Logotipos, marcas, nomes comerciais
-- Documentação, tutoriais e materiais de treinamento
-- APIs, integrações e funcionalidades
+- Código-fonte, design, interface e funcionalidades;
+- Logotipos, marcas, nomes comerciais;
+- Documentação, tutoriais e materiais de suporte;
+- Algoritmos, processos e metodologias;
 
-São de propriedade exclusiva do **Jonathas Oliveira** e estão protegidos por leis de direitos autorais e propriedade intelectual.
+São de propriedade exclusiva do desenvolvedor/proprietário do Sistema ou de seus licenciadores.
 
-### 5.2. Licença de Uso
+### 5.2 Licença de Uso
 
-Concedemos a você uma licença:
+Concedemos a você uma licença limitada, não exclusiva, não transferível e revogável para usar o Sistema conforme estes Termos. Você **não** adquire nenhum direito de propriedade sobre o Sistema.
 
-- **Não exclusiva:** outros usuários também podem usar o sistema
-- **Não transferível:** você não pode transferir ou sublicenciar
-- **Revogável:** podemos revogar se você violar os Termos
-- **Limitada:** apenas para uso conforme descrito nestes Termos
+### 5.3 Seus Dados
 
-Esta licença não lhe confere propriedade sobre o sistema.
+Você mantém todos os direitos sobre os dados que inserir no Sistema (informações de clientes, vendas, etc.). Ao usar o Sistema, você nos concede uma licença para processar, armazenar e usar esses dados exclusivamente para fornecer o Serviço.
 
-### 5.3. Marca Registrada
+## 6. Pagamentos e Assinaturas
 
-Nosso nome, logotipo e marcas são de nossa propriedade exclusiva. Você não pode usá-los sem autorização prévia por escrito.
+### 6.1 Planos e Preços
 
-## 6. Planos, Pagamentos e Cobrança
+[**PERSONALIZAR CONFORME SEU MODELO DE NEGÓCIO:**]
 
-### 6.1. Planos Disponíveis
+- **Versão Gratuita:** funcionalidades básicas (se aplicável);
+- **Plano Pago:** acesso completo mediante assinatura mensal/anual;
+- **Taxas adicionais:** podem ser cobradas por funcionalidades premium ou volume de uso.
 
-Oferecemos diferentes planos de assinatura:
+Os preços estão sujeitos a alterações mediante notificação prévia de [ESPECIFICAR PRAZO - ex: 30 dias].
 
-- **Plano Gratuito/Trial:** funcionalidades limitadas, pode ter restrições de tempo ou recursos
-- **Planos Pagos:** funcionalidades completas conforme o plano contratado
-- Detalhes e preços estão disponíveis em: **[link para página de preços]**
+### 6.2 Formas de Pagamento
 
-### 6.2. Faturamento e Pagamento
+Aceitamos pagamentos através de:
 
-- **Periodicidade:** cobranças mensais ou anuais, conforme plano escolhido
-- **Forma de pagamento:** cartão de crédito, boleto bancário ou outros métodos disponíveis
-- **Cobrança automática:** renovação automática ao final de cada período
-- **Impostos:** valores não incluem impostos aplicáveis (que serão adicionados quando necessário)
-- **Moeda:** valores em Reais (BRL) ou conforme especificado
+- Cartão de crédito/débito;
+- Boleto bancário;
+- PIX;
+- Outras formas especificadas no momento da contratação.
 
-### 6.3. Atrasos e Inadimplência
+### 6.3 Renovação e Cancelamento
 
-- Em caso de pagamento não processado, tentaremos novamente em dias subsequentes
-- Após **[X dias]** de inadimplência, seu acesso poderá ser suspenso
-- Você será notificado por e-mail antes da suspensão
-- Dados poderão ser mantidos por até **[X dias]** após suspensão
+- **Renovação automática:** assinaturas são renovadas automaticamente, salvo cancelamento prévio;
+- **Cancelamento:** você pode cancelar a qualquer momento através do painel de controle ou solicitação ao suporte;
+- **Reembolso:** [ESPECIFICAR POLÍTICA - ex: não oferecemos reembolsos proporcionais, exceto em casos específicos previstos em lei].
 
-### 6.4. Reembolsos
+### 6.4 Inadimplência
 
-- **Política de reembolso:** **[especificar: ex: reembolso integral em 7 dias, proporcional, ou sem reembolso]**
-- Solicite reembolsos através de: **[email de suporte]**
-- Processamento em até **[X dias úteis]**
+Em caso de inadimplência:
 
-### 6.5. Cancelamento
+- Seu acesso ao Sistema poderá ser suspenso após [X dias] de atraso;
+- Poderemos adotar medidas legais para recuperação de crédito;
+- Dados poderão ser removidos após [X dias] de suspensão.
 
-- Você pode cancelar sua assinatura a qualquer momento através do painel de configurações
-- Cancelamentos efetuados antes do próximo ciclo de cobrança evitam novas cobranças
-- Você manterá acesso até o final do período pago
-- Após cancelamento, seus dados serão mantidos por **[X dias]** e depois excluídos, salvo requisitos legais
+## 7. Limitações de Responsabilidade
 
-### 6.6. Alterações de Preço
+### 7.1 Isenção de Garantias
 
-- Reservamo-nos o direito de alterar preços com aviso prévio de **30 dias**
-- Usuários atuais terão seus preços mantidos por pelo menos um ciclo de cobrança
-- Você pode cancelar se não concordar com os novos preços
+O Sistema é fornecido "como está" e "conforme disponível", sem garantias de qualquer tipo, expressas ou implícitas, incluindo mas não limitado a:
 
-## 7. Privacidade e Proteção de Dados
+- Garantias de comercialização ou adequação a uma finalidade específica;
+- Garantias de disponibilidade ininterrupta ou livre de erros;
+- Garantias de precisão, confiabilidade ou completude das informações.
 
-### 7.1. Política de Privacidade
+### 7.2 Limitação de Responsabilidade
 
-O tratamento de dados pessoais está detalhado em nossa **[Política de Privacidade](PRIVACY_POLICY.md)**, que faz parte integrante destes Termos.
+Na máxima extensão permitida pela lei aplicável, não seremos responsáveis por:
 
-### 7.2. Conformidade com LGPD
+- **Danos indiretos:** lucros cessantes, perda de dados, perda de oportunidades de negócio, danos morais ou consequenciais;
+- **Falhas técnicas:** erros, bugs, interrupções, perda de dados devido a falhas de sistema;
+- **Atos de terceiros:** ações de usuários, hackers, prestadores de serviço ou terceiros;
+- **Caso fortuito ou força maior:** desastres naturais, pandemias, guerras, ataques cibernéticos massivos, falhas de infraestrutura de internet;
+- **Uso indevido:** consequências decorrentes do uso inadequado ou violação destes Termos.
 
-Nosso sistema está em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
+### 7.3 Valor Máximo
 
-### 7.3. Responsabilidades Compartilhadas
+Em qualquer circunstância, nossa responsabilidade total não excederá o valor pago por você nos últimos 12 meses de uso do Sistema.
 
-- **Nós somos responsáveis por:** proteger os dados armazenados, implementar medidas de segurança, processar dados conforme instruções
-- **Você é responsável por:** obter consentimento dos clientes, garantir legalidade dos dados coletados, configurar permissões adequadamente
+### 7.4 Responsabilidade do Usuário
 
-## 8. Limitações de Responsabilidade
+Você é exclusivamente responsável por:
 
-### 8.1. Isenção de Garantias
+- Manter backups de seus dados;
+- Garantir a precisão das informações inseridas;
+- Cumprir obrigações fiscais, trabalhistas e legais relacionadas ao seu negócio;
+- Respeitar a legislação aplicável ao usar o Sistema.
 
-O sistema é fornecido "COMO ESTÁ" e "CONFORME DISPONÍVEL", sem garantias de qualquer tipo, expressas ou implícitas.
+## 8. Privacidade e Proteção de Dados
 
-**Não garantimos que:**
+### 8.1 Política de Privacidade
 
-- O sistema funcionará sem interrupções ou erros
-- Todos os bugs serão corrigidos imediatamente
-- O sistema atenderá a todas as suas necessidades específicas
-- Os dados estarão sempre disponíveis ou livres de perdas
+O tratamento de dados pessoais é regido por nossa **Política de Privacidade**, que faz parte integrante destes Termos. Ao usar o Sistema, você concorda com a coleta, uso e compartilhamento de informações conforme descrito na Política de Privacidade.
 
-### 8.2. Limitação de Responsabilidade
+### 8.2 Conformidade com a LGPD
 
-Na máxima extensão permitida por lei:
+Comprometemo-nos a cumprir a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018) e outras legislações aplicáveis de proteção de dados.
 
-- **Não somos responsáveis por:** perdas de receita, lucros cessantes, perda de dados, danos indiretos, incidentais ou consequenciais
-- **Responsabilidade máxima:** limitada ao valor pago por você nos últimos 12 meses (ou 3 meses, conforme aplicável)
-- **Casos de força maior:** não somos responsáveis por falhas causadas por eventos fora de nosso controle (desastres naturais, guerras, pandemias, etc.)
+### 8.3 Segurança
 
-### 8.3. Suas Responsabilidades
+Implementamos medidas de segurança técnicas e organizacionais adequadas, mas não podemos garantir segurança absoluta. Você reconhece que a transmissão de dados pela internet possui riscos inerentes.
 
-Você é responsável por:
+## 9. Modificações no Serviço e nos Termos
 
-- Realizar backups regulares dos seus dados (recomendamos backups próprios além dos nossos)
-- Configurar corretamente permissões e acessos
-- Manter seus sistemas e dispositivos seguros
-- Garantir conformidade legal no uso dos dados de clientes
-- Supervisionar ações de funcionários/usuários vinculados à sua conta
+### 9.1 Alterações no Sistema
 
-## 9. Indenização
+Reservamo-nos o direito de:
 
-Você concorda em indenizar, defender e isentar o **Api de sistemas de gerenciamento de salões de beleza**, seus diretores, funcionários, parceiros e afiliados de quaisquer reivindicações, danos, perdas, responsabilidades e despesas (incluindo honorários advocatícios) decorrentes de:
+- Modificar, adicionar ou remover funcionalidades;
+- Atualizar, melhorar ou descontinuar o Sistema ou partes dele;
+- Realizar manutenções programadas ou emergenciais.
 
-- Seu uso indevido do sistema
-- Violação destes Termos de Serviço
-- Violação de direitos de terceiros
-- Conteúdo que você inserir no sistema
-- Ações de usuários autorizados por você
+Faremos esforços razoáveis para notificá-lo sobre mudanças significativas.
 
-## 10. Modificações no Serviço
+### 9.2 Alterações nos Termos
 
-### 10.1. Atualizações e Melhorias
+Podemos modificar estes Termos a qualquer momento. Quando fizermos alterações substanciais, notificaremos você por:
 
-Podemos, a qualquer momento:
+- E-mail cadastrado;
+- Aviso no Sistema;
+- Atualização da data no topo deste documento.
 
-- Adicionar, modificar ou remover funcionalidades
-- Atualizar a interface e design
-- Melhorar performance e segurança
-- Corrigir bugs e vulnerabilidades
+O uso continuado do Sistema após as alterações constitui aceitação dos novos Termos. Se você não concordar, deve descontinuar o uso do Sistema.
 
-### 10.2. Notificações
+## 10. Suspensão e Encerramento
 
-- Mudanças significativas serão comunicadas por e-mail ou através do sistema
-- Atualizações menores podem ser implementadas sem aviso prévio
-- Changelogs e notas de versão estarão disponíveis
+### 10.1 Suspensão pela Plataforma
 
-### 10.3. Descontinuação
+Podemos suspender ou encerrar seu acesso imediatamente, sem aviso prévio, se:
 
-Se decidirmos descontinuar o serviço:
+- Você violar estes Termos ou a Política de Privacidade;
+- Houver atividade suspeita, fraudulenta ou ilegal;
+- Você não pagar valores devidos;
+- For necessário para proteção do Sistema ou de outros usuários;
+- Houver ordem judicial ou requisição de autoridade competente.
 
-- Você será notificado com pelo menos **90 dias** de antecedência
-- Forneceremos ferramentas para exportação de seus dados
-- Reembolsaremos valores proporcionais de assinaturas pagas
-
-## 11. Modificações dos Termos
-
-### 11.1. Direito de Alteração
-
-Reservamo-nos o direito de modificar estes Termos de Serviço a qualquer momento.
-
-### 11.2. Notificação de Mudanças
-
-- Você será notificado sobre alterações significativas por e-mail ou através do sistema
-- A data de "Última atualização" no topo deste documento será modificada
-- Recomendamos revisar estes Termos periodicamente
-
-### 11.3. Aceitação das Mudanças
-
-- Alterações entram em vigor **30 dias** após a notificação
-- O uso continuado do sistema após esse período constitui aceitação
-- Se você não concordar, deverá cancelar sua conta antes da data de vigência
-
-## 12. Rescisão
-
-### 12.1. Rescisão por Você
+### 10.2 Encerramento pelo Usuário
 
 Você pode encerrar sua conta a qualquer momento:
 
-- Através do painel de configurações
-- Enviando solicitação para: **[email de suporte]**
-- Seus dados serão tratados conforme nossa Política de Privacidade
+- Através das configurações do Sistema;
+- Entrando em contato com nosso suporte;
+- Enviando solicitação formal por e-mail.
 
-### 12.2. Rescisão por Nós
+### 10.3 Efeitos do Encerramento
 
-Podemos suspender ou encerrar sua conta imediatamente, sem aviso prévio, se:
+Após o encerramento da conta:
 
-- Você violar estes Termos de Serviço
-- Houver suspeita de atividade fraudulenta
-- Seu uso apresentar riscos à segurança
-- Determinar que a continuidade do serviço é impraticável
-- Receber ordem judicial ou de autoridade competente
+- Seu acesso ao Sistema será imediatamente revogado;
+- Seus dados poderão ser excluídos após [ESPECIFICAR PRAZO - ex: 30 dias], salvo quando exigido por lei;
+- Você permanecerá responsável por quaisquer obrigações pendentes;
+- Cláusulas que, por sua natureza, devem sobreviver ao encerramento (propriedade intelectual, limitações de responsabilidade, legislação aplicável) permanecerão em vigor.
 
-### 12.3. Efeitos da Rescisão
+## 11. Indenização
 
-Após a rescisão:
+Você concorda em indenizar, defender e isentar o Sistema, seus desenvolvedores, funcionários, parceiros e afiliados de quaisquer reivindicações, perdas, responsabilidades, danos, custos e despesas (incluindo honorários advocatícios) decorrentes de:
 
-- Seu acesso ao sistema será encerrado
-- Você não terá mais acesso aos seus dados após **[20 dias]**
-- Obrigações acumuladas antes da rescisão permanecerão em vigor
-- Disposições que devem sobreviver (privacidade, propriedade intelectual) continuarão válidas
+- Seu uso do Sistema;
+- Violação destes Termos;
+- Violação de direitos de terceiros;
+- Informações ou conteúdo que você fornecer;
+- Suas atividades comerciais relacionadas ao uso do Sistema.
 
-## 13. Suporte Técnico
+## 12. Serviços e Integrações de Terceiros
 
-### 13.1. Canais de Suporte
+### 12.1 APIs e Integrações
 
-Oferecemos suporte através de:
+O Sistema pode integrar-se a serviços de terceiros (ex: gateways de pagamento, WhatsApp, e-mail). Essas integrações estão sujeitas aos termos e políticas desses terceiros.
 
-- **E-mail:** [joanthass5678@gmail.com]
-- **Sistema de tickets:** disponível no painel
-- **Documentação:** [link para documentação]
-- **FAQ:** perguntas frequentes disponíveis em [link]
+### 12.2 Isenção de Responsabilidade
 
-### 13.2. Horário de Atendimento
+Não somos responsáveis por:
 
-- **Dias úteis:** [Segunda a Sexta, 9h às 18h]
-- **Finais de semana e feriados:** suporte limitado ou indisponível
-- **Tempo de resposta:** até **[X horas úteis]** dependendo do plano
+- Disponibilidade, conteúdo ou práticas de serviços de terceiros;
+- Alterações, interrupções ou descontinuação de APIs de terceiros;
+- Perdas decorrentes do uso de serviços integrados.
 
-### 13.3. Níveis de Suporte
+## 13. Resolução de Disputas
 
-- **Plano gratuito:** suporte por e-mail, sem SLA garantido
-- **Planos pagos:** suporte prioritário conforme o plano contratado
+### 13.1 Negociação Amigável
 
-## 14. Legislação Aplicável e Foro
+Em caso de disputas, as partes tentarão resolver amigavelmente através de negociação direta por um período de [ESPECIFICAR - ex: 30 dias].
 
-### 14.1. Lei Aplicável
+### 13.2 Arbitragem (Opcional)
 
-Estes Termos de Serviço são regidos pelas leis da **República Federativa do Brasil**, especialmente:
+[**SE APLICÁVEL:**] As partes podem concordar em submeter disputas à arbitragem conforme as regras de [ESPECIFICAR CÂMARA DE ARBITRAGEM].
 
-- **Código Civil Brasileiro** - Lei nº 10.406/2002
-- **Código de Defesa do Consumidor** - Lei nº 8.078/1990
-- **Marco Civil da Internet** - Lei nº 12.965/2014
-- **Lei Geral de Proteção de Dados** - Lei nº 13.709/2018
+### 13.3 Legislação Aplicável
 
-### 14.2. Foro
+Estes Termos são regidos pelas leis da República Federativa do Brasil, especialmente:
 
-Fica eleito o foro da comarca de **[Sua Cidade, Estado]** para dirimir quaisquer controvérsias decorrentes destes Termos, renunciando-se a qualquer outro, por mais privilegiado que seja.
+- Código Civil Brasileiro (Lei 10.406/2002);
+- Código de Defesa do Consumidor (Lei 8.078/1990);
+- Marco Civil da Internet (Lei 12.965/2014);
+- Lei Geral de Proteção de Dados (Lei 13.709/2018);
+- Legislação aplicável sobre propriedade intelectual e direito autoral.
 
-**Exceção:** consumidores têm direito a acionar o foro de seu domicílio, conforme Código de Defesa do Consumidor.
+### 13.4 Foro
 
-### 14.3. Resolução de Disputas
+Fica eleito o foro da comarca de **[ESPECIFICAR CIDADE/ESTADO]** para dirimir quaisquer controvérsias oriundas destes Termos, com renúncia expressa a qualquer outro, por mais privilegiado que seja.
 
-Antes de recorrer ao judiciário, encorajamos:
+## 14. Disposições Gerais
 
-- Contato direto conosco para resolução amigável
-- Mediação ou arbitragem, quando aplicável
-- Uso de plataformas de resolução online de conflitos
+### 14.1 Acordo Integral
 
-## 15. Disposições Gerais
+Estes Termos, juntamente com a Política de Privacidade, constituem o acordo integral entre você e o Sistema, substituindo quaisquer acordos anteriores.
 
-### 15.1. Acordo Integral
+### 14.2 Divisibilidade
 
-Estes Termos, juntamente com a Política de Privacidade, constituem o acordo integral entre você e o **Api de sistemas de gerenciamento de salões de beleza**.
+Se qualquer disposição destes Termos for considerada inválida ou inexequível, as demais disposições permanecerão em pleno vigor e efeito.
 
-### 15.2. Independência das Cláusulas
+### 14.3 Não Renúncia
 
-Se qualquer disposição destes Termos for considerada inválida ou inexequível, as demais disposições permanecerão em pleno vigor.
+A falha em exercer ou fazer cumprir qualquer direito ou disposição destes Termos não constitui renúncia a tal direito ou disposição.
 
-### 15.3. Renúncia
+### 14.4 Cessão
 
-A falha em exercer ou fazer cumprir qualquer direito ou disposição destes Termos não constituirá renúncia de tal direito ou disposição.
+Você não pode ceder ou transferir seus direitos sob estes Termos sem nosso consentimento prévio por escrito. Podemos ceder nossos direitos a qualquer afiliado ou sucessor sem restrições.
 
-### 15.4. Cessão
+### 14.5 Notificações
 
-Você não pode transferir ou ceder seus direitos sob estes Termos sem nosso consentimento prévio por escrito. Podemos ceder nossos direitos a qualquer afiliado ou sucessor.
+Notificações oficiais serão enviadas para o e-mail cadastrado em sua conta. É sua responsabilidade manter informações de contato atualizadas.
 
-### 15.5. Notificações
+### 14.6 Idioma
 
-Notificações serão enviadas para o e-mail cadastrado em sua conta. É sua responsabilidade manter um e-mail válido e verificá-lo regularmente.
+A versão em português destes Termos é a versão oficial. Em caso de conflito entre traduções, a versão em português prevalecerá.
 
-### 15.6. Idioma
+## 15. Contato e Suporte
 
-Este documento foi redigido em português (Brasil). Em caso de tradução, a versão em português prevalecerá em caso de conflito.
+Para dúvidas, sugestões, reclamações ou solicitações relacionadas a estes Termos de Serviço:
 
-## 16. Contato
+**Responsável pelo Sistema:** [NOME DA EMPRESA/DESENVOLVEDOR]  
+**E-mail de Suporte:** [SUPORTE@EXEMPLO.COM]  
+**E-mail Comercial:** [CONTATO@EXEMPLO.COM]  
+**Endereço:** [ENDEREÇO COMPLETO]  
+**Telefone:** [TELEFONE DE CONTATO]  
+**Horário de Atendimento:** [ESPECIFICAR - ex: Segunda a Sexta, 9h às 18h (horário de Brasília)]
 
-Para questões sobre estes Termos de Serviço, entre em contato:
-
-**[Nome da Empresa/Projeto]**  
-**E-mail:** [contato@seudominio.com]  
-**E-mail de Suporte:** [suporte@seudominio.com]  
-**Endereço:** [Seu endereço completo com CEP]  
-**CNPJ:** [XX.XXX.XXX/XXXX-XX] *(se aplicável)*  
-**Telefone:** [(XX) XXXX-XXXX]  
-
-**Horário de atendimento:** [Dias e horários]
+**GitHub:** [LINK DO REPOSITÓRIO]  
+**Documentação:** [LINK PARA DOCS, SE APLICÁVEL]
 
 ---
 
-## Definições e Glossário
+## 16. Glossário
 
 Para fins destes Termos:
 
-- **Sistema/Serviço:** refere-se à plataforma de gerenciamento para salões de beleza
-- **Usuário/Você:** pessoa ou entidade que utiliza o sistema
-- **Conta:** registro único de acesso ao sistema
-- **Conteúdo do Usuário:** dados, informações e materiais inseridos por você
-- **SaaS:** Software as a Service (Software como Serviço)
-- **API:** Application Programming Interface (Interface de Programação de Aplicações)
-- **LGPD:** Lei Geral de Proteção de Dados Pessoais
+- **Sistema/Serviço:** plataforma de gerenciamento de salão de beleza;
+- **Usuário:** pessoa física ou jurídica que utiliza o Sistema;
+- **Conta:** registro individual de acesso ao Sistema;
+- **Dados Pessoais:** informações relacionadas a pessoa identificada ou identificável;
+- **LGPD:** Lei Geral de Proteção de Dados (Lei 13.709/2018);
+- **Força Maior:** eventos imprevisíveis ou inevitáveis que impeçam o cumprimento de obrigações.
 
 ---
 
-## Histórico de Versões
+**Declaração de Aceitação**
 
-- **v1.0** - 1 de dezembro de 2025: Versão inicial dos Termos de Serviço
+AO CRIAR UMA CONTA E UTILIZAR O SISTEMA, VOCÊ DECLARA QUE LEU, COMPREENDEU E CONCORDA EM ESTAR VINCULADO A ESTES TERMOS DE SERVIÇO E À POLÍTICA DE PRIVACIDADE.
 
----
-
-**ÚLTIMA RECOMENDAÇÃO:**
-
-**Ao criar uma conta ou usar o sistema, você confirma que:**
-
-1. Leu e compreendeu estes Termos de Serviço
-2. Leu e compreendeu nossa Política de Privacidade
-3. Concorda em cumprir todas as obrigações aqui estabelecidas
-4. Tem autoridade legal para aceitar estes termos
-
-**Se você não concorda com qualquer parte destes Termos, não use nosso serviço.**
-
-Para esclarecimentos ou dúvidas, entre em contato conosco antes de utilizar o sistema.
+**Data da última revisão:** 1 de dezembro de 2025
 
 ---
 
-*© 2025 Api de sistemas de gerenciamento de salões de beleza. Todos os direitos reservados.*
+**Desenvolvido com atenção à conformidade legal e boas práticas de software.**
