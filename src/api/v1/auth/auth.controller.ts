@@ -56,22 +56,43 @@ export const me = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const prisma = (await import('../../../config/db')).default;
-  const user = await prisma.user.findUnique({
+  const user: any = await prisma.user.findUnique({
     where: { id: userId },
     select: {
       id: true,
       email: true,
       name: true,
-      role: true,
       phone: true,
       avatar: true,
       isActive: true,
       createdAt: true,
+      role: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          rolePermissions: {
+            select: {
+              permission: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
 
+  // Extract permissions
+  const permissions = user.role?.rolePermissions?.map((rp: any) => rp.permission.name) || [];
+
   res.json({
     status: 'success',
-    data: { user },
+    data: {
+      ...user,
+      permissions,
+    },
   });
 });

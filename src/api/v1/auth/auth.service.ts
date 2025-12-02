@@ -17,6 +17,7 @@ interface AuthResponse {
     email: string;
     name: string;
     role: string;
+    permissions: string[];
   };
   accessToken: string;
   refreshToken: string;
@@ -83,6 +84,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role.name,
+        permissions,
       },
       accessToken,
       refreshToken,
@@ -237,6 +239,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role.name,
+        permissions,
       },
       accessToken,
       refreshToken,
