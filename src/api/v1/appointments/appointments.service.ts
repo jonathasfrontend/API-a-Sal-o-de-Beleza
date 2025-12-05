@@ -83,28 +83,51 @@ export class AppointmentService {
       throw new AppError('Time slot not available', 400);
     }
 
-    // Create appointment
-    const appointment = await prisma.appointment.create({
-      data: {
-        clientId: data.clientId,
-        staffId: data.staffId,
-        startTime: data.startTime,
-        endTime,
-        services: data.services,
-        totalAmount,
-        notes: data.notes,
-        createdBy,
-      },
-      include: {
-        client: true,
-        staff: {
-          include: {
-            user: {
-              select: { name: true, phone: true },
+    // Create appointment with payment in a transaction
+    const appointment = await prisma.$transaction(async (tx : any) => {
+      // Create the appointment
+      const newAppointment = await tx.appointment.create({
+        data: {
+          clientId: data.clientId,
+          staffId: data.staffId,
+          startTime: data.startTime,
+          endTime,
+          services: data.services,
+          totalAmount,
+          notes: data.notes,
+          createdBy,
+        },
+      });
+
+      // Create the payment automatically with PENDING status
+      await tx.payment.create({
+        data: {
+          appointmentId: newAppointment.id,
+          clientId: data.clientId,
+          amount: totalAmount,
+          method: 'CASH', // Default method, can be changed later
+          status: 'PENDING',
+        },
+      });
+
+      // Return appointment with relations
+      return tx.appointment.findUnique({
+        where: { id: newAppointment.id },
+        include: {
+          client: true,
+          staff: {
+            include: {
+              user: {
+                select: { name: true, phone: true },
+              },
             },
           },
+          payments: {
+            orderBy: { createdAt: 'desc' },
+            take: 1,
+          },
         },
-      },
+      });
     });
 
     return appointment;
@@ -138,23 +161,34 @@ export class AppointmentService {
     }
 
     // Filter by specific date
-    if (date) {
-      const startOfDay = new Date(date);
-      startOfDay.setHours(0, 0, 0, 0);
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 999);
+    if (date && !startDate && !endDate) {
+      // Usar UTC para evitar problemas de timezone
+      const dateStr = date.includes('T') ? date.split('T')[0] : date;
+      const startOfDay = new Date(`${dateStr}T00:00:00.000Z`);
+      const endOfDay = new Date(`${dateStr}T23:59:59.999Z`);
 
       where.startTime = {
         gte: startOfDay,
         lte: endOfDay,
       };
     }
-
     // Filter by date range
-    if (startDate && endDate) {
+    else if (startDate && endDate) {
+      // Validar formato de data
+      const startStr = startDate.includes('T') ? startDate.split('T')[0] : startDate;
+      const endStr = endDate.includes('T') ? endDate.split('T')[0] : endDate;
+      
+      const start = new Date(`${startStr}T00:00:00.000Z`);
+      const end = new Date(`${endStr}T23:59:59.999Z`);
+      
+      // Validar se as datas são válidas
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        throw new AppError('Invalid date format. Use YYYY-MM-DD format', 400);
+      }
+      
       where.startTime = {
-        gte: new Date(startDate),
-        lte: new Date(endDate),
+        gte: start,
+        lte: end,
       };
     }
 
@@ -178,6 +212,10 @@ export class AppointmentService {
                 select: { name: true },
               },
             },
+          },
+          payments: {
+            orderBy: { createdAt: 'desc' },
+            take: 1,
           },
         },
       }),
@@ -260,6 +298,10 @@ export class AppointmentService {
                 user: { select: { name: true } },
               },
             },
+            payments: {
+              orderBy: { createdAt: 'desc' },
+              take: 1,
+            },
           },
         });
         
@@ -277,6 +319,10 @@ export class AppointmentService {
             user: { select: { name: true } },
           },
         },
+        payments: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+        },
       },
     });
 
@@ -286,18 +332,48 @@ export class AppointmentService {
   async cancel(id: string) {
     const appointment = await prisma.appointment.findUnique({
       where: { id },
+      include: { payments: true },
     });
 
     if (!appointment) {
       throw new AppError('Appointment not found', 404);
     }
 
-    const updated = await prisma.appointment.update({
-      where: { id },
-      data: { status: 'CANCELLED' },
+    // Use transaction to update both appointment and payment
+    const result = await prisma.$transaction(async (tx : any) => {
+      // Update appointment status
+      const updatedAppointment = await tx.appointment.update({
+        where: { id },
+        data: { status: 'CANCELLED' },
+        include: {
+          client: true,
+          staff: {
+            include: {
+              user: { select: { name: true } },
+            },
+          },
+          payments: {
+            orderBy: { createdAt: 'desc' },
+            take: 1,
+          },
+        },
+      });
+
+      // Cancel pending payments
+      if (appointment.payments && appointment.payments.length > 0) {
+        await tx.payment.updateMany({
+          where: {
+            appointmentId: id,
+            status: { in: ['PENDING', 'PARTIAL'] },
+          },
+          data: { status: 'CANCELLED' },
+        });
+      }
+
+      return updatedAppointment;
     });
 
-    return updated;
+    return result;
   }
 
   async markNoShow(id: string) {

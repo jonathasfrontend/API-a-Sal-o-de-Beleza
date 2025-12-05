@@ -38,6 +38,13 @@ async function main() {
     prisma.permission.create({ data: { name: 'appointments.update', description: 'Editar agendamentos', module: 'appointments' } }),
     prisma.permission.create({ data: { name: 'appointments.delete', description: 'Deletar agendamentos', module: 'appointments' } }),
     
+    // Users
+    prisma.permission.create({ data: { name: 'users.list', description: 'Listar usuários', module: 'users' } }),
+    prisma.permission.create({ data: { name: 'users.read', description: 'Visualizar usuários', module: 'users' } }),
+    prisma.permission.create({ data: { name: 'users.create', description: 'Criar usuários', module: 'users' } }),
+    prisma.permission.create({ data: { name: 'users.update', description: 'Editar usuários', module: 'users' } }),
+    prisma.permission.create({ data: { name: 'users.delete', description: 'Deletar usuários', module: 'users' } }),
+    
     // Staff
     prisma.permission.create({ data: { name: 'staff.read', description: 'Visualizar profissionais', module: 'staff' } }),
     prisma.permission.create({ data: { name: 'staff.create', description: 'Criar profissionais', module: 'staff' } }),

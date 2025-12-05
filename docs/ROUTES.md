@@ -12,6 +12,34 @@
 
 > **💡 Sistema de Permissões**: Após o login, o token JWT contém as permissões do usuário. Cada rota valida automaticamente se o usuário possui a permissão necessária (ex: `clients.create`, `appointments.update`, etc.).
 
+### Registrar Novo Usuário
+```bash
+curl -X POST http://localhost:4000/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "novousuario@salao.com",
+    "password": "senha123",
+    "name": "Novo Usuário",
+    "role": "RECEPTION"
+  }'
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": "uuid",
+      "email": "novousuario@salao.com",
+      "name": "Novo Usuário"
+    },
+    "accessToken": "eyJhbGc...",
+    "refreshToken": "abc123..."
+  }
+}
+```
+
 ### Login
 ```bash
 curl -X POST http://localhost:4000/api/v1/auth/login \
@@ -70,6 +98,15 @@ curl -X POST http://localhost:4000/api/v1/auth/refresh \
   }'
 ```
 
+### Logout
+```bash
+curl -X POST http://localhost:4000/api/v1/auth/logout \
+  -H "Content-Type: application/json" \
+  -d '{
+    "refreshToken": "SEU_REFRESH_TOKEN"
+  }'
+```
+
 ### Meus Dados
 ```bash
 curl -X GET http://localhost:4000/api/v1/auth/me \
@@ -78,7 +115,148 @@ curl -X GET http://localhost:4000/api/v1/auth/me \
 
 ---
 
-## 👥 2. Clientes
+## � 2. Usuários
+
+> **🔐 Permissões necessárias**: `users.list`, `users.create`, `users.read`, `users.update`, `users.delete`
+
+### Criar Usuário (Para posteriormente criar Staff)
+```bash
+curl -X POST http://localhost:4000/api/v1/users \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "profissional@salao.com",
+    "password": "senha123",
+    "name": "Carlos Mendes",
+    "phone": "11987654321",
+    "roleId": "UUID_DA_ROLE"
+  }'
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": "uuid-do-usuario",
+      "email": "profissional@salao.com",
+      "name": "Carlos Mendes",
+      "phone": "11987654321",
+      "isActive": true,
+      "role": {
+        "id": "uuid-role",
+        "name": "Profissional",
+        "description": "Profissional do salão",
+        "rolePermissions": [...]
+      },
+      "staff": null,
+      "createdAt": "2024-12-05T10:00:00Z"
+    }
+  }
+}
+```
+
+💡 **Após criar o usuário, use o `id` retornado para criar o perfil de Staff!**
+
+### Listar Usuários
+```bash
+# Todos os usuários
+curl -X GET http://localhost:4000/api/v1/users \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Filtrar ativos
+curl -X GET "http://localhost:4000/api/v1/users?isActive=true" \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Filtrar por role
+curl -X GET "http://localhost:4000/api/v1/users?roleId=UUID_DA_ROLE" \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Buscar por nome/email/telefone
+curl -X GET "http://localhost:4000/api/v1/users?search=carlos" \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "users": [
+      {
+        "id": "uuid",
+        "email": "profissional@salao.com",
+        "name": "Carlos Mendes",
+        "phone": "11987654321",
+        "isActive": true,
+        "role": {
+          "id": "uuid-role",
+          "name": "Profissional",
+          "description": "Profissional do salão"
+        },
+        "staff": {
+          "id": "uuid-staff",
+          "specialties": ["cabelo", "barba"],
+          "isAvailable": true
+        }
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+### Buscar Usuário por ID
+```bash
+curl -X GET http://localhost:4000/api/v1/users/UUID_DO_USUARIO \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+### Atualizar Usuário
+```bash
+curl -X PUT http://localhost:4000/api/v1/users/UUID_DO_USUARIO \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Carlos Mendes Silva",
+    "phone": "11988887777",
+    "roleId": "UUID_NOVA_ROLE"
+  }'
+```
+
+### Alterar Senha do Usuário
+```bash
+curl -X PUT http://localhost:4000/api/v1/users/UUID_DO_USUARIO/password \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "currentPassword": "senha123",
+    "newPassword": "novaSenha456"
+  }'
+```
+
+### Desativar Usuário (Soft Delete)
+```bash
+curl -X PUT http://localhost:4000/api/v1/users/UUID_DO_USUARIO/deactivate \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+### Ativar Usuário
+```bash
+curl -X PUT http://localhost:4000/api/v1/users/UUID_DO_USUARIO/activate \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+### Deletar Usuário Permanentemente
+```bash
+curl -X DELETE http://localhost:4000/api/v1/users/UUID_DO_USUARIO \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+---
+
+## �👥 3. Clientes
 
 > **🔐 Permissões necessárias**: `clients.list`, `clients.create`, `clients.read`, `clients.update`, `clients.delete`
 
@@ -186,7 +364,7 @@ curl -X DELETE http://localhost:4000/api/v1/clients/UUID_DO_CLIENTE \
 
 ---
 
-## 💇 3. Serviços
+## 💇 4. Serviços
 
 > **🔐 Permissões necessárias**: `services.list`, `services.create`, `services.read`, `services.update`, `services.delete`
 
@@ -250,7 +428,7 @@ curl -X DELETE http://localhost:4000/api/v1/services/UUID_DO_SERVICO \
 
 ---
 
-## 👨‍💼 4. Profissionais (Staff)
+## 👨‍💼 5. Profissionais (Staff)
 
 > **🔐 Permissões necessárias**: `staff.list`, `staff.create`, `staff.read`, `staff.update`, `staff.delete`, `staff.availability`, `staff.assign-role`
 
@@ -301,9 +479,37 @@ curl -X GET http://localhost:4000/api/v1/staff/UUID_STAFF/schedule \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 
+### Atualizar Profissional
+```bash
+curl -X PUT http://localhost:4000/api/v1/staff/UUID_STAFF \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "specialties": ["cabelo", "manicure", "design de sobrancelhas"],
+    "commissionValue": 45,
+    "isAvailable": true
+  }'
+```
+
+### Atribuir Cargo a Profissional
+```bash
+curl -X POST http://localhost:4000/api/v1/staff/UUID_STAFF/assign-role \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "roleId": "UUID_DO_CARGO"
+  }'
+```
+
+### Deletar Profissional
+```bash
+curl -X DELETE http://localhost:4000/api/v1/staff/UUID_STAFF \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
 ---
 
-## 📅 5. Agendamentos
+## 📅 6. Agendamentos
 
 > **🔐 Permissões necessárias**: `appointments.list`, `appointments.create`, `appointments.read`, `appointments.update`, `appointments.delete`, `appointments.cancel`, `appointments.no-show`
 
@@ -453,7 +659,7 @@ curl -X GET "http://localhost:4000/api/v1/appointments/stats?startDate=2024-12-0
 
 ---
 
-## 💰 6. Pagamentos
+## 💰 7. Pagamentos
 
 > **🔐 Permissões necessárias**: `payments.list`, `payments.create`, `payments.read`, `payments.confirm`, `payments.refund`, `payments.report`
 
@@ -505,7 +711,7 @@ curl -X GET "http://localhost:4000/api/v1/payments/report?startDate=2024-12-01&e
 
 ---
 
-## 📦 7. Produtos
+## 📦 8. Produtos
 
 > **🔐 Permissões necessárias**: `products.list`, `products.create`, `products.read`, `products.update`, `products.delete`, `products.stock`
 
@@ -571,9 +777,27 @@ curl -X GET http://localhost:4000/api/v1/products/UUID_PRODUTO/movements \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 
+### Atualizar Produto
+```bash
+curl -X PUT http://localhost:4000/api/v1/products/UUID_PRODUTO \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "salePrice": 50.00,
+    "reorderThreshold": 15,
+    "isActive": true
+  }'
+```
+
+### Deletar Produto
+```bash
+curl -X DELETE http://localhost:4000/api/v1/products/UUID_PRODUTO \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
 ---
 
-## 🛒 8. Vendas (PDV)
+## 🛒 9. Vendas (PDV)
 
 > **🔐 Permissões necessárias**: `sales.list`, `sales.create`, `sales.read`
 
@@ -600,9 +824,58 @@ curl -X POST http://localhost:4000/api/v1/sales \
   }'
 ```
 
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "uuid",
+    "clientId": "uuid-cliente",
+    "totalAmount": 120.00,
+    "paymentMethod": "CREDIT",
+    "items": [
+      {
+        "productId": "uuid-produto-1",
+        "quantity": 2,
+        "unitPrice": 45.00,
+        "subtotal": 90.00
+      },
+      {
+        "productId": "uuid-produto-2",
+        "quantity": 1,
+        "unitPrice": 30.00,
+        "subtotal": 30.00
+      }
+    ],
+    "createdAt": "2024-12-04T10:00:00Z"
+  }
+}
+```
+
+### Listar Vendas
+```bash
+# Todas as vendas
+curl -X GET http://localhost:4000/api/v1/sales \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Por período
+curl -X GET "http://localhost:4000/api/v1/sales?startDate=2024-12-01&endDate=2024-12-31" \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Por cliente
+curl -X GET "http://localhost:4000/api/v1/sales?clientId=UUID" \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+### Buscar Venda por ID
+```bash
+curl -X GET http://localhost:4000/api/v1/sales/UUID_VENDA \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
 ---
 
-## 📊 9. Relatórios
+## 📊 10. Relatórios
 
 > **🔐 Permissões necessárias**: `reports.dashboard`, `reports.financial`, `reports.commissions`
 
@@ -635,7 +908,7 @@ curl -X GET "http://localhost:4000/api/v1/reports/commissions?startDate=2024-12-
 
 ---
 
-## ⭐ 10. Avaliações
+## ⭐ 11. Avaliações
 
 > **🔐 Permissões necessárias**: `reviews.list`, `reviews.create`, `reviews.read`, `reviews.update`, `reviews.delete`, `reviews.stats`
 
@@ -656,7 +929,16 @@ curl -X POST http://localhost:4000/api/v1/reviews \
 
 ### Listar Avaliações
 ```bash
+# Todas as avaliações
 curl -X GET http://localhost:4000/api/v1/reviews \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Por cliente
+curl -X GET "http://localhost:4000/api/v1/reviews?clientId=UUID" \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Por rating mínimo
+curl -X GET "http://localhost:4000/api/v1/reviews?minRating=4" \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 
@@ -666,9 +948,30 @@ curl -X GET http://localhost:4000/api/v1/reviews/stats \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": {
+    "averageRating": 4.7,
+    "totalReviews": 150,
+    "ratingDistribution": {
+      "5": 100,
+      "4": 35,
+      "3": 10,
+      "2": 3,
+      "1": 2
+    },
+    "averageServiceQuality": 4.8,
+    "averageStaffBehavior": 4.9,
+    "averageCleanliness": 4.6
+  }
+}
+```
+
 ---
 
-## 📋 11. Lista de Espera
+## 📋 12. Lista de Espera
 
 > **🔐 Permissões necessárias**: `waitlist.list`, `waitlist.create`, `waitlist.read`, `waitlist.update`, `waitlist.delete`, `waitlist.notify`
 
@@ -705,7 +1008,134 @@ curl -X POST http://localhost:4000/api/v1/waitlist/UUID_ENTRY/contact \
 
 ---
 
-## � 12. Sistema de Cargos e Permissões
+## 💸 13. Despesas
+
+> **🔐 Permissões necessárias**: `expenses.list`, `expenses.create`, `expenses.read`, `expenses.update`, `expenses.delete`
+
+### Criar Despesa
+```bash
+curl -X POST http://localhost:4000/api/v1/expenses \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Aluguel do salão",
+    "category": "Infraestrutura",
+    "amount": 3500.00,
+    "dueDate": "2024-12-10T00:00:00Z",
+    "isRecurring": true,
+    "notes": "Pagamento mensal do aluguel"
+  }'
+```
+
+### Listar Despesas
+```bash
+# Todas as despesas
+curl -X GET http://localhost:4000/api/v1/expenses \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Por período
+curl -X GET "http://localhost:4000/api/v1/expenses?startDate=2024-12-01&endDate=2024-12-31" \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Por categoria
+curl -X GET "http://localhost:4000/api/v1/expenses?category=Infraestrutura" \
+  -H "Authorization: Bearer SEU_TOKEN"
+
+# Apenas pendentes
+curl -X GET "http://localhost:4000/api/v1/expenses?isPaid=false" \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+**Resposta esperada:**
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "uuid",
+      "description": "Aluguel do salão",
+      "category": "Infraestrutura",
+      "amount": 3500.00,
+      "dueDate": "2024-12-10T00:00:00Z",
+      "isPaid": false,
+      "paidAt": null,
+      "isRecurring": true,
+      "notes": "Pagamento mensal do aluguel",
+      "createdAt": "2024-12-01T10:00:00Z"
+    }
+  ]
+}
+```
+
+### Buscar Despesa por ID
+```bash
+curl -X GET http://localhost:4000/api/v1/expenses/UUID_DA_DESPESA \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+### Atualizar Despesa
+```bash
+curl -X PUT http://localhost:4000/api/v1/expenses/UUID_DA_DESPESA \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 3700.00,
+    "notes": "Reajuste anual do aluguel"
+  }'
+```
+
+### Marcar como Pago
+```bash
+curl -X POST http://localhost:4000/api/v1/expenses/UUID_DA_DESPESA/pay \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+### Deletar Despesa
+```bash
+curl -X DELETE http://localhost:4000/api/v1/expenses/UUID_DA_DESPESA \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+---
+
+## 🔔 13. Webhooks
+
+> **⚠️ IMPORTANTE**: Rotas públicas sem autenticação (usadas por serviços externos)
+
+### Webhook WhatsApp
+```bash
+curl -X POST http://localhost:4000/api/v1/webhooks/whatsapp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event": "message.received",
+    "data": {
+      "from": "5511999998888",
+      "message": "Olá, gostaria de agendar um horário"
+    }
+  }'
+```
+
+**Descrição**: Recebe notificações de eventos do WhatsApp Business API, como mensagens recebidas, status de envio, etc.
+
+### Webhook Pagamento
+```bash
+curl -X POST http://localhost:4000/api/v1/webhooks/payment \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event": "payment.approved",
+    "data": {
+      "paymentId": "uuid-do-pagamento",
+      "status": "approved",
+      "transactionId": "MP-123456789"
+    }
+  }'
+```
+
+**Descrição**: Recebe notificações de mudanças de status em pagamentos de gateways externos (Mercado Pago, Stripe, etc.).
+
+---
+
+## 👔 15. Sistema de Cargos e Permissões
 
 > **⚠️ IMPORTANTE**: Todas as rotas deste módulo requerem permissão `roles.*` (apenas ADMIN)
 
@@ -1079,7 +1509,7 @@ Senha: staff123
 
 ---
 
-## �🐛 Códigos de Erro Esperados
+## 🐛 Códigos de Erro Esperados
 
 | Código | Descrição |
 |--------|-----------|

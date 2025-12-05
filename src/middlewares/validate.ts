@@ -23,8 +23,29 @@ export const validateJoi = (schema: Schema) => {
 export const validateZod = (schema: ZodSchema) => {
   return (req: Request, _res: Response, next: NextFunction) => {
     try {
-      const validated = schema.parse(req.body);
-      req.body = validated;
+      // Check if the schema has a 'body' property by inspecting its shape
+      const schemaShape = (schema as any)._def?.shape?.();
+      const hasBodyProperty = schemaShape && 'body' in schemaShape;
+      
+      let validated;
+      
+      if (hasBodyProperty) {
+        // Schema expects { body, query, params } structure
+        validated = schema.parse({
+          body: req.body,
+          query: req.query,
+          params: req.params,
+        });
+        // Update request with validated data
+        if (validated.body) req.body = validated.body;
+        if (validated.query) req.query = validated.query;
+        if (validated.params) req.params = validated.params;
+      } else {
+        // Schema expects direct body validation
+        validated = schema.parse(req.body);
+        req.body = validated;
+      }
+      
       next();
     } catch (error: any) {
       const errorMessages = error.errors?.map((err: any) => 
